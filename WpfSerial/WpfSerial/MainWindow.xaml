@@ -67,15 +67,13 @@
             <StackPanel Grid.Row="0" 
                         HorizontalAlignment="Left" 
                         Orientation="Horizontal">
-                <Button Margin="0,0,10,0" >_Clear</Button>
-                <Button>_Open</Button>
-                <TextBox Width="240" />
-                <Button Margin="0,0,10,0">Send File</Button>
-                <Button MaxWidth="60">Stop</Button>
-                <CheckBox>Top</CheckBox>
-                <CheckBox>Save</CheckBox>
-                <Button Margin="0,0,10,0">_Expand</Button>
-                <Button>_Min</Button>
+                <Button Margin="0,0,10,5" >_Clear</Button>
+                <Button Margin="0,0,0,5" >_Open</Button>
+                <TextBox Margin="0,0,0,5" Width="240" />
+                <Button Margin="0,0,10,5">Send File</Button>
+                <Button Margin="0,0,0,5"  MaxWidth="60">Stop</Button>
+                <CheckBox VerticalAlignment="Center">Top</CheckBox>
+                <CheckBox VerticalAlignment="Center">Save</CheckBox>
             </StackPanel>
             <StackPanel Grid.Row="1" 
                         Orientation="Horizontal">
@@ -155,21 +153,21 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <CheckBox Margin="0,0,10,0">HexDisplay</CheckBox>
-                    <CheckBox Grid.Row="1">HexSend</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Margin="0,0,10,0">HexDisplay</CheckBox>
+                    <CheckBox Grid.Row="1" VerticalAlignment="Center" Padding="4,-1,0,0">HexSend</CheckBox>
                     <Button Grid.Column="1" Grid.Row="0" >Save data</Button>
-                    <CheckBox Grid.Column="1" Grid.Row="1" Margin="0,0,10,0">Recv to File</CheckBox>
-                    <CheckBox Grid.Column="2" Grid.Row="0">Timer</CheckBox>
-                    <TextBlock Grid.Column="2" Grid.Row="1" Margin="0,0,10,0">Times out :</TextBlock>
+                    <CheckBox Grid.Column="1" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Center">Recv to File</CheckBox>
+                    <CheckBox Grid.Column="2" Grid.Row="0" VerticalAlignment="Center">Timer</CheckBox>
+                    <TextBlock Grid.Column="2" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Center">Times out :</TextBlock>
                     <TextBox Grid.Column="3" Grid.Row="0" Width="50"/>
                     <TextBox Grid.Column="3" Grid.Row="1" Width="50"/>
-                    <TextBlock Grid.Column="4" Grid.Row="0" Margin="0,0,10,0">ms</TextBlock>
-                    <TextBlock Grid.Column="4" Grid.Row="1">ms</TextBlock>
-                    <TextBlock Grid.Column="5" Grid.Row="0">Verify</TextBlock>
+                    <TextBlock Grid.Column="4" Grid.Row="0" Margin="0,0,10,0" VerticalAlignment="Center">ms</TextBlock>
+                    <TextBlock Grid.Column="4" Grid.Row="1" VerticalAlignment="Center">ms</TextBlock>
+                    <TextBlock Grid.Column="5" Grid.Row="0" VerticalAlignment="Center">Verify</TextBlock>
                     <TextBox Grid.Column="6" Grid.Row="0" Width="20" Margin="0,0,10,0"></TextBox>
-                    <TextBlock Grid.Column="7" Grid.Row="0" Margin="0,0,10,0">To</TextBlock>
+                    <TextBlock Grid.Column="7" Grid.Row="0" Margin="0,0,10,0" VerticalAlignment="Center">To</TextBlock>
                     <ComboBox Grid.Column="8" Grid.Row="0" Width="40" ></ComboBox>
-                    <TextBlock Grid.Column="5" Grid.Row="1" Margin="0,0,10,0">Code</TextBlock>
+                    <TextBlock Grid.Column="5" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Center">Code</TextBlock>
                     <ComboBox Grid.Column="6" Grid.Row="1" Width="Auto" Grid.ColumnSpan="3" ></ComboBox>
                     <TextBox Grid.Column="9" Grid.Row="1" Width="60"></TextBox>
                     <TextBox Grid.Row="2" Grid.ColumnSpan="11"

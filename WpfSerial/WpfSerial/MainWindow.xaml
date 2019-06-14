@@ -116,7 +116,7 @@
                                 <ComboBox Name="cmbStopbits" Grid.Row="3" Grid.Column="1">1</ComboBox>
                                 <ComboBox Name="cmbParity" Grid.Row="4" Grid.Column="1">None</ComboBox>
                                 <Button Name="btnOpenSerialPort"  Grid.Row="0" Grid.Column="2" Margin="10,0,0,0">Open</Button>
-                                <Button Grid.Row="3" Grid.Column="2" Margin="10,0,0,0" Grid.RowSpan="2" Content="   Send   "></Button>
+                                <Button Grid.Row="3" Grid.Column="2" Margin="10,0,0,0" Grid.RowSpan="2" Style="{DynamicResource AccentedSquareButtonStyle}" Content="   Send   "></Button>
                             </Grid>
                         </TabItem>
                         <TabItem Header="UDP">
@@ -166,7 +166,7 @@
                     <TextBlock Grid.Column="5" Grid.Row="0" VerticalAlignment="Center">Verify</TextBlock>
                     <TextBox Grid.Column="6" Grid.Row="0" Width="20" Margin="0,0,10,0"></TextBox>
                     <TextBlock Grid.Column="7" Grid.Row="0" Margin="0,0,10,0" VerticalAlignment="Center">To</TextBlock>
-                    <ComboBox Grid.Column="8" Grid.Row="0" Width="40" ></ComboBox>
+                    <ComboBox Grid.Column="8" Grid.Row="0" Width="60" ></ComboBox>
                     <TextBlock Grid.Column="5" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Center">Code</TextBlock>
                     <ComboBox Grid.Column="6" Grid.Row="1" Width="Auto" Grid.ColumnSpan="3" ></ComboBox>
                     <TextBox Grid.Column="9" Grid.Row="1" Width="60"></TextBox>

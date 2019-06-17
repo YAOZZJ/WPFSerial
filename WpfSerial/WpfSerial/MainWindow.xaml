@@ -26,8 +26,12 @@
                               Click="MnuItmCommMethodClick"
                               IsCheckable="True" IsChecked="True"/>
                     <MenuItem Header="_TCPServer" 
+                              Name="MnuItmTCPServer"
+                              Click="MnuItmCommMethodClick"
                               IsCheckable="True" IsChecked="False"/>
                     <MenuItem Header="_UDP" 
+                              Name="MnuItmUDP"
+                              Click="MnuItmCommMethodClick"
                               IsCheckable="True" IsChecked="False"/>
                     <Separator />
                     <MenuItem Header="_Serial" Name="MnuItmSerial"/>
@@ -61,7 +65,9 @@
             <StatusBarItem Foreground="Black">R:</StatusBarItem>
             <StatusBarItem Foreground="Black" Width="100">0</StatusBarItem>
             <Separator />
-            <StatusBarItem></StatusBarItem>
+            <StatusBarItem Foreground="Black" Name="StatItmMessage">
+                
+            </StatusBarItem>
         </StatusBar>
         <Grid DockPanel.Dock="Bottom" 
               HorizontalAlignment="Left">

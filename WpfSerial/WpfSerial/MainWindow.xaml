@@ -63,10 +63,16 @@
             </StatusBarItem>
             <Separator />
             <StatusBarItem Foreground="Black">S:</StatusBarItem>
-            <StatusBarItem Foreground="Black" Width="100">0</StatusBarItem>
+            <StatusBarItem Foreground="Black" Width="100"
+                           Name="statItmSendCounter"
+                           Content="{Binding IntValue}"
+                           ></StatusBarItem>
             <Separator />
             <StatusBarItem Foreground="Black">R:</StatusBarItem>
-            <StatusBarItem Foreground="Black" Width="100">0</StatusBarItem>
+            <StatusBarItem Foreground="Black" Width="100"
+                           Name="statItmRecvCounter"
+                           Content="{Binding IntValue}"
+                           ></StatusBarItem>
             <Separator />
             <StatusBarItem Foreground="Black" Name="StatItmMessage">
 
@@ -212,7 +218,8 @@
                              AcceptsReturn="True" 
                       TextWrapping = "Wrap" 
                       HorizontalScrollBarVisibility="Auto" 
-                      VerticalScrollBarVisibility="Auto" ></TextBox>
+                      VerticalScrollBarVisibility="Auto" 
+                             ></TextBox>
                 </Grid>
             </StackPanel>
         </Grid>

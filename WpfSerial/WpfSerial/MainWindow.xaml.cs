@@ -10,6 +10,7 @@ namespace WpfSerial
         public MainWindow()
         {
             InitializeComponent();
+            Startup();
         }
 
         

@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataBinding.cs" />
     <Compile Include="EvenHandler.cs" />
     <Compile Include="UsrClass\SerialClass.cs" />
     <Compile Include="UsrClass\UsrConsole.cs" />

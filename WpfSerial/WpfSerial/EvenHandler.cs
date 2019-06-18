@@ -6,6 +6,10 @@ namespace WpfSerial
 {
     public partial class MainWindow : Window
     {
+        SerialClass serialPort1 = new SerialClass();
+        DataBinding SendDataCounterBing = new DataBinding();
+        DataBinding RecvDataCounterBing = new DataBinding();
+
         private void Startup()
         {
             foreach (string str1 in SerialClass.GetSerialPropertyValue(SerialClass.SerialProperty.PortName))
@@ -37,6 +41,8 @@ namespace WpfSerial
             //***************************************************************
             //btnSendData.IsEnabled = false;
             //***************************************************************
+            this.statItmSendCounter.DataContext = SendDataCounterBing;
+            this.statItmRecvCounter.DataContext = RecvDataCounterBing;
 
         }
         /// <summary>
@@ -145,7 +151,6 @@ namespace WpfSerial
         }
         private void BtnOpenSerialPortClick(object sender, RoutedEventArgs e)
         {
-
         }
         private void BtnRefreshSerialPortClick(object sender, RoutedEventArgs e)
         {

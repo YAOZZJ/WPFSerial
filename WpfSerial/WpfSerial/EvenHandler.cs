@@ -48,7 +48,6 @@ namespace WpfSerial
                     btnOpenSerialPort.Content = "Open";
                     btnOpenSerialPort.Background = default;
                     statbrMain.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0x7A, 0xCC));
-                    txtblkCurrentTime.SetBinding(TextBlock.TextProperty, new Binding("Value") { ElementName = System.DateTime.Now.ToShortTimeString(), Mode = BindingMode.OneWay });
                 }));
                     SerialPort1.ComReceiveDataEvent -= SerialPort1_ComReceiveDataEvent;
             }

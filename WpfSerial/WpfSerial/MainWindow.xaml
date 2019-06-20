@@ -18,7 +18,8 @@
                 <Separator />
                 <!--分割器-->
                 <!--二级菜单-->
-                <MenuItem Header="_COMM Port">
+                <MenuItem Header="_COMM Port"
+                          Name="MnuItmCommPort">
                     <MenuItem Header="_Fresh" Click="MnuItmFreshClick">
                         <MenuItem.Icon>
                             <Image Source="http://cdn1.iconfinder.com/data/icons/fatcow/16/bullet_red.png" />

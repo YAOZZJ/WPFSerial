@@ -30,6 +30,15 @@ namespace WpfSerial
                     btnOpenSerialPort.Content = "Close";
                     btnOpenSerialPort.Background = Brushes.Red;
                     statbrMain.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xCA, 0x51, 0x00));
+                    cmbBaudRate.IsEnabled = false;
+                    cmbCommMethod.IsEnabled = false;
+                    cmbDataBits.IsEnabled = false;
+                    cmbParity.IsEnabled = false;
+                    cmbSerialPortName.IsEnabled = false;
+                    cmbStopbits.IsEnabled = false;
+                    btnRefreshSerialPort.IsEnabled = false;
+                    btnSendData.IsEnabled = true;
+                    MnuItmCommPort.IsEnabled = false;
                 }));
                 SerialPort1.ComReceiveDataEvent += SerialPort1_ComReceiveDataEvent;
             }
@@ -48,6 +57,15 @@ namespace WpfSerial
                     btnOpenSerialPort.Content = "Open";
                     btnOpenSerialPort.Background = default;
                     statbrMain.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0x7A, 0xCC));
+                    cmbBaudRate.IsEnabled = true;
+                    cmbCommMethod.IsEnabled = true;
+                    cmbDataBits.IsEnabled = true;
+                    cmbParity.IsEnabled = true;
+                    cmbSerialPortName.IsEnabled = true;
+                    cmbStopbits.IsEnabled = true;
+                    btnRefreshSerialPort.IsEnabled = true;
+                    btnSendData.IsEnabled = false;
+                    MnuItmCommPort.IsEnabled = true;
                 }));
                     SerialPort1.ComReceiveDataEvent -= SerialPort1_ComReceiveDataEvent;
             }
@@ -86,6 +104,8 @@ namespace WpfSerial
             cmbDataBits.SelectedIndex = 0;
             cmbStopbits.SelectedIndex = 1;
             cmbParity.SelectedIndex = 0;
+            cmbCommMethod.SelectedIndex = 0;
+            btnSendData.IsEnabled = false;
             //***************************************************************
             //控件使能初始化
             //btnSendData.IsEnabled = false;

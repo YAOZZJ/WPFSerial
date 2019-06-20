@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using UsrCommunication;
 
 namespace WpfSerial
@@ -18,18 +20,33 @@ namespace WpfSerial
         }
         private void SerialPort1_ComOpenEvent(object sender, SerialPortEventArgs e)
         {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                StatItmMessage.Content = SerialPort1.GetSerialPortStatus();
+                btnOpenSerialPort.Content = "Close";
+                btnOpenSerialPort.Background = Brushes.Red;
+                
 
+            }));
+            SerialPort1.ComReceiveDataEvent += SerialPort1_ComReceiveDataEvent;
         }
         private void SerialPort1_ComCloseEvent(object sender, SerialPortEventArgs e)
         {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                StatItmMessage.Content = "Closed";
+                btnOpenSerialPort.Content = "Open";
+                btnOpenSerialPort.Background = default;
 
+            }));
+            SerialPort1.ComReceiveDataEvent -= SerialPort1_ComReceiveDataEvent;
         }
         #endregion
-        #region 普通方法
-        /// <summary>
-        /// 程序加载时执行,combobox列表初始化
-        /// </summary>
-        private void Startup()
+            #region 普通方法
+            /// <summary>
+            /// 程序加载时执行,combobox列表初始化
+            /// </summary>
+            private void Startup()
         {
             foreach (string str1 in SerialClass.GetSerialPropertyValue(SerialClass.SerialProperty.PortName))
             {
@@ -224,6 +241,11 @@ namespace WpfSerial
         private void BtnClearSendDataClick(object sender, RoutedEventArgs e)
         {
             txtSendData.Clear();
+        }
+        private void CmbCommMethod_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            ComboBox cmb1 = sender as ComboBox;
+            tabCtrlCommMethod.SelectedIndex = cmb1.SelectedIndex;
         }
         #endregion
     }

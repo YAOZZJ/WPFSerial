@@ -103,13 +103,15 @@
             <StackPanel Grid.Row="1" 
                         Orientation="Horizontal">
                 <StackPanel>
-                    <ComboBox Name="cmbCommMethod">
+                    <ComboBox Name="cmbCommMethod"
+                              SelectionChanged="CmbCommMethod_SelectionChanged"
+                              >
                         <ComboBoxItem>Serial</ComboBoxItem>
                         <ComboBoxItem>UDP</ComboBoxItem>
                         <ComboBoxItem>TCP Client</ComboBoxItem>
                         <ComboBoxItem>TCP Server</ComboBoxItem>
                     </ComboBox>
-                    <TabControl >
+                    <TabControl  Name="tabCtrlCommMethod">
                         <TabControl.ItemContainerStyle>
                             <Style>
                                 <Setter Property="TabItem.Visibility" 

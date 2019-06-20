@@ -50,17 +50,20 @@
             <MenuItem Header="_Option"></MenuItem>
             <MenuItem Header="_Help"></MenuItem>
         </Menu>
-        <StatusBar DockPanel.Dock="Bottom" Background = "#FF007ACC">
+        <StatusBar DockPanel.Dock="Bottom" Background = "#FF007ACC" Name="statbrMain">
             <StatusBarItem>
                 <TextBlock Foreground="Black" 
-                           Text="{Binding Source={x:Static system:DateTime.Now},  
-                    ConverterCulture='zh-cn', StringFormat=Date: {0:D}}" />
+                           Name="txtblkCurrentTime" Text="2019-9-4 20:12:12"
+                            />
+                <!--Text="{Binding Source={x:Static system:DateTime.Now},  
+                    ConverterCulture='zh-cn', StringFormat=Date: {0:D}}"-->
             </StatusBarItem>
-            <Separator />
+            <!--<Separator />
             <StatusBarItem>
-                <TextBlock Foreground="Black" Text="{Binding Source={x:Static system:DateTime.Now}, 
-                    StringFormat=Time: {0:HH:mm}}" />
-            </StatusBarItem>
+                <TextBlock Foreground="Black"   
+                           />
+                --><!--无法自动更新,感到很失望Text="{Binding Source={x:Static system:DateTime.Now}, StringFormat=Time: {0:HH:mm:ss}}"--><!--
+            </StatusBarItem>-->
             <Separator />
             <StatusBarItem Foreground="Black">S:</StatusBarItem>
             <StatusBarItem Foreground="Black" Width="100"

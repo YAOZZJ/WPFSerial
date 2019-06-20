@@ -16,6 +16,7 @@ namespace UsrCommunication
     {
         public bool isOpened = false;
         public Byte[] receiveBytes = null;
+        public string message = "";
     }
     #endregion
 
@@ -145,9 +146,10 @@ namespace UsrCommunication
                 _serialPort.DataReceived += SerialPortDataReceived;
                 Args.isOpened = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex);
+                //Console.WriteLine(ex);
+                Args.message = $"{portName} open failed";
                 Args.isOpened = false;
             }
             if(ComOpenEvent != null)

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Threading;
 using UsrCommunication;
 
 namespace WpfSerial
@@ -20,26 +22,36 @@ namespace WpfSerial
         }
         private void SerialPort1_ComOpenEvent(object sender, SerialPortEventArgs e)
         {
-            this.Dispatcher.Invoke(new Action(() =>
+            if (SerialPort1.IsOpen)
             {
-                StatItmMessage.Content = SerialPort1.GetSerialPortStatus();
-                btnOpenSerialPort.Content = "Close";
-                btnOpenSerialPort.Background = Brushes.Red;
-                
-
-            }));
-            SerialPort1.ComReceiveDataEvent += SerialPort1_ComReceiveDataEvent;
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    Message(SerialPort1.GetSerialPortStatus());
+                    btnOpenSerialPort.Content = "Close";
+                    btnOpenSerialPort.Background = Brushes.Red;
+                    statbrMain.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xCA, 0x51, 0x00));
+                }));
+                SerialPort1.ComReceiveDataEvent += SerialPort1_ComReceiveDataEvent;
+            }
+            else
+            {
+                Message(e.message);
+            }
         }
         private void SerialPort1_ComCloseEvent(object sender, SerialPortEventArgs e)
         {
-            this.Dispatcher.Invoke(new Action(() =>
+            if (!SerialPort1.IsOpen)
             {
-                StatItmMessage.Content = "Closed";
-                btnOpenSerialPort.Content = "Open";
-                btnOpenSerialPort.Background = default;
-
-            }));
-            SerialPort1.ComReceiveDataEvent -= SerialPort1_ComReceiveDataEvent;
+                    Dispatcher.Invoke(new Action(() =>
+                {
+                    Message("Closed");
+                    btnOpenSerialPort.Content = "Open";
+                    btnOpenSerialPort.Background = default;
+                    statbrMain.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0x7A, 0xCC));
+                    txtblkCurrentTime.SetBinding(TextBlock.TextProperty, new Binding("Value") { ElementName = System.DateTime.Now.ToShortTimeString(), Mode = BindingMode.OneWay });
+                }));
+                    SerialPort1.ComReceiveDataEvent -= SerialPort1_ComReceiveDataEvent;
+            }
         }
         #endregion
             #region 普通方法
@@ -86,6 +98,24 @@ namespace WpfSerial
             //注册事件
             SerialPort1.ComOpenEvent += SerialPort1_ComOpenEvent;
             SerialPort1.ComCloseEvent += SerialPort1_ComCloseEvent;
+            //***************************************************************
+            //时间
+            DispatcherTimer Timer_1S = new DispatcherTimer();
+            Timer_1S.Tick += new EventHandler(TimeCycle_1S);
+            Timer_1S.Interval = new TimeSpan(0, 0, 0, 1);
+            Timer_1S.Start();
+        }
+        /// <summary>
+        /// 显示用户消息
+        /// </summary>
+        /// <param name="message"></param>
+        private void Message(string message)
+        {
+            StatItmMessage.Content = message;
+        }
+        private void TimeCycle_1S(object sender, EventArgs e)
+        {
+            txtblkCurrentTime.Text = DateTime.Now.ToLocalTime().ToString();
         }
         #endregion
         #region UI事件

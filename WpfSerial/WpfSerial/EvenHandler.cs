@@ -6,10 +6,29 @@ namespace WpfSerial
 {
     public partial class MainWindow : Window
     {
-        SerialClass serialPort1 = new SerialClass();
+        #region Global data
+        SerialClass SerialPort1 = new SerialClass();
         DataBinding SendDataCounterBing = new DataBinding();
         DataBinding RecvDataCounterBing = new DataBinding();
+        #endregion
+        #region 串口通讯事件
+        private void SerialPort1_ComReceiveDataEvent(object sender, SerialPortEventArgs e)
+        {
 
+        }
+        private void SerialPort1_ComOpenEvent(object sender, SerialPortEventArgs e)
+        {
+
+        }
+        private void SerialPort1_ComCloseEvent(object sender, SerialPortEventArgs e)
+        {
+
+        }
+        #endregion
+        #region 普通方法
+        /// <summary>
+        /// 程序加载时执行,combobox列表初始化
+        /// </summary>
         private void Startup()
         {
             foreach (string str1 in SerialClass.GetSerialPropertyValue(SerialClass.SerialProperty.PortName))
@@ -33,18 +52,26 @@ namespace WpfSerial
                 cmbParity.Items.Add(str1);
             }
             //***************************************************************
+            //默认选项
             cmbSerialPortName.SelectedIndex = 0;
             cmbBaudRate.SelectedIndex = 1;
             cmbDataBits.SelectedIndex = 0;
             cmbStopbits.SelectedIndex = 1;
             cmbParity.SelectedIndex = 0;
             //***************************************************************
+            //控件使能初始化
             //btnSendData.IsEnabled = false;
             //***************************************************************
+            //数据绑定
             this.statItmSendCounter.DataContext = SendDataCounterBing;
             this.statItmRecvCounter.DataContext = RecvDataCounterBing;
-
+            //***************************************************************
+            //注册事件
+            SerialPort1.ComOpenEvent += SerialPort1_ComOpenEvent;
+            SerialPort1.ComCloseEvent += SerialPort1_ComCloseEvent;
         }
+        #endregion
+        #region UI事件
         /// <summary>
         /// 退出
         /// </summary>
@@ -149,20 +176,55 @@ namespace WpfSerial
                     break;
             }
         }
+        /// <summary>
+        /// 打开/关闭串口端口
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnOpenSerialPortClick(object sender, RoutedEventArgs e)
         {
+            if(!SerialPort1.IsOpen)
+            {
+                SerialPort1.Open(cmbSerialPortName.SelectionBoxItem.ToString(),
+                             cmbBaudRate.SelectionBoxItem.ToString(),
+                             cmbDataBits.SelectionBoxItem.ToString(),
+                             cmbStopbits.SelectionBoxItem.ToString(),
+                             cmbParity.SelectionBoxItem.ToString(),
+                             "None"
+                );
+            }
+            else
+            {
+                SerialPort1.Close();
+            }
         }
+        /// <summary>
+        /// 刷新串口号
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnRefreshSerialPortClick(object sender, RoutedEventArgs e)
         {
             MnuItmFreshClick(sender, e);
         }
+        /// <summary>
+        /// 清除接收数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnClearRecvDataClick(object sender, RoutedEventArgs e)
         {
             txtTerminal.Clear();
         }
+        /// <summary>
+        /// 清除发送数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnClearSendDataClick(object sender, RoutedEventArgs e)
         {
             txtSendData.Clear();
         }
+        #endregion
     }
 }

@@ -22,7 +22,15 @@ namespace WpfSerial
         {
             Dispatcher.Invoke(new Action(() =>
             {
-
+                if ((bool)chkHexDisplay.IsChecked)
+                {
+                    txtTerminal.Text += UsrMethod.UsrConversion.Byte2HexString(e.receiveBytes);
+                }
+                else
+                {
+                    txtTerminal.Text += UsrMethod.UsrConversion.Byte2String(e.receiveBytes);
+                }
+                RecvDataCounterBing.IntValue = SerialPort1.receiveBytesCount;
             }));
         }
         private void SerialPort1_ComOpenEvent(object sender, SerialPortEventArgs e)
@@ -296,6 +304,23 @@ namespace WpfSerial
         {
             txtSendData.Clear();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnSendDataClick(object sender, RoutedEventArgs e)
+        {
+            if ((bool)chkHexSend.IsChecked)
+            {
+                SerialPort1.SerialPortSend(UsrMethod.UsrConversion.HexString2Byte(txtSendData.Text));
+            }
+            else
+            {
+                SerialPort1.SerialPortSend(txtSendData.Text);
+            }
+            SendDataCounterBing.IntValue = SerialPort1.sendBytesCount;
+        }
         private void CmbCommMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cmb1 = sender as ComboBox;
@@ -308,8 +333,11 @@ namespace WpfSerial
         /// <param name="e"></param>
         private void TxtSendData_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            Regex re = new Regex(@"[0-9A-Fa-f]");
-            e.Handled = !re.IsMatch(e.Text);
+            if ((bool)chkHexSend.IsChecked)
+            {
+                Regex re = new Regex(@"[0-9A-Fa-f]");
+                e.Handled = !re.IsMatch(e.Text);
+            }
         }
         #endregion
     }

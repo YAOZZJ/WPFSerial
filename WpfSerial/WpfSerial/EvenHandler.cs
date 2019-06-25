@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using UsrCommunication;
@@ -18,7 +20,10 @@ namespace WpfSerial
         #region 串口通讯事件
         private void SerialPort1_ComReceiveDataEvent(object sender, SerialPortEventArgs e)
         {
+            Dispatcher.Invoke(new Action(() =>
+            {
 
+            }));
         }
         private void SerialPort1_ComOpenEvent(object sender, SerialPortEventArgs e)
         {
@@ -291,10 +296,20 @@ namespace WpfSerial
         {
             txtSendData.Clear();
         }
-        private void CmbCommMethod_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void CmbCommMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cmb1 = sender as ComboBox;
             tabCtrlCommMethod.SelectedIndex = cmb1.SelectedIndex;
+        }
+        /// <summary>
+        /// 正则表达式文本输入判断
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TxtSendData_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex re = new Regex(@"[0-9A-Fa-f]");
+            e.Handled = !re.IsMatch(e.Text);
         }
         #endregion
     }

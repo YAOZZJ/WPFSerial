@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
         Title="数据调试器" Height="450" Width="770">
     <DockPanel>
@@ -202,8 +203,10 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <CheckBox VerticalAlignment="Center" Margin="0,0,10,0">HexDisplay</CheckBox>
-                    <CheckBox Grid.Row="1" VerticalAlignment="Center" Padding="4,-1,0,0">HexSend</CheckBox>
+                    <CheckBox VerticalAlignment="Center" Margin="0,0,10,0"
+                              Name="chkHexDisplay">HexDisplay</CheckBox>
+                    <CheckBox Grid.Row="1" VerticalAlignment="Center" Padding="4,-1,0,0"
+                              Name="chkHexSend">HexSend</CheckBox>
                     <Button Grid.Column="1" Grid.Row="0" >Save data</Button>
                     <CheckBox Grid.Column="1" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Center">Recv to File</CheckBox>
                     <CheckBox Grid.Column="2" Grid.Row="0" VerticalAlignment="Center">Timer</CheckBox>
@@ -225,7 +228,10 @@
                       TextWrapping = "Wrap" 
                       HorizontalScrollBarVisibility="Auto" 
                       VerticalScrollBarVisibility="Auto" 
-                             ></TextBox>
+                      input:InputMethod.IsInputMethodEnabled="false"
+                             PreviewTextInput="TxtSendData_PreviewTextInput"
+                             >
+                    </TextBox>
                 </Grid>
             </StackPanel>
         </Grid>

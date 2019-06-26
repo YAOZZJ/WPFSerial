@@ -24,13 +24,14 @@ namespace WpfSerial
             {
                 if ((bool)chkHexDisplay.IsChecked)
                 {
-                    txtTerminal.Text += UsrMethod.UsrConversion.Byte2HexString(e.receiveBytes);
+                    txtRecvData.Text += UsrMethod.UsrConversion.Byte2HexString(e.receiveBytes);
                 }
                 else
                 {
-                    txtTerminal.Text += UsrMethod.UsrConversion.Byte2String(e.receiveBytes);
+                    txtRecvData.Text += UsrMethod.UsrConversion.Byte2String(e.receiveBytes);
                 }
                 RecvDataCounterBing.IntValue = SerialPort1.receiveBytesCount;
+                txtRecvData.ScrollToEnd();
             }));
         }
         private void SerialPort1_ComOpenEvent(object sender, SerialPortEventArgs e)
@@ -293,7 +294,7 @@ namespace WpfSerial
         /// <param name="e"></param>
         private void BtnClearRecvDataClick(object sender, RoutedEventArgs e)
         {
-            txtTerminal.Clear();
+            txtRecvData.Clear();
         }
         /// <summary>
         /// 清除发送数据
@@ -337,6 +338,28 @@ namespace WpfSerial
             {
                 Regex re = new Regex(@"[0-9A-Fa-f]");
                 e.Handled = !re.IsMatch(e.Text);
+            }
+        }
+        private void ChkHexSendChecked(object sender, RoutedEventArgs e)
+        {
+            if ((bool)chkHexSend.IsChecked)
+            {
+                txtSendData.Text = UsrMethod.UsrConversion.String2Hex(txtSendData.Text);
+            }
+            else
+            {
+                txtSendData.Text = UsrMethod.UsrConversion.Hex2String(txtSendData.Text);
+            }
+        }
+        private void ChkHexDisplayChecked(object sender, RoutedEventArgs e)
+        {
+            if ((bool)chkHexDisplay.IsChecked)
+            {
+                txtRecvData.Text = UsrMethod.UsrConversion.String2Hex(txtRecvData.Text);
+            }
+            else
+            {
+                txtRecvData.Text = UsrMethod.UsrConversion.Hex2String(txtRecvData.Text);
             }
         }
         #endregion

@@ -6,9 +6,16 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
-        Title="数据调试器" Height="450" Width="770">
-    <DockPanel>
-        <Menu DockPanel.Dock="Top" >
+        Title="数据调试器" Height="450" Width="870">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--菜单栏-->
+        <Menu Grid.Row="0">
             <MenuItem Header="_File" >
                 <!--主菜单-->
                 <!--触发事件-->
@@ -52,7 +59,8 @@
             <MenuItem Header="_Option"></MenuItem>
             <MenuItem Header="_Help"></MenuItem>
         </Menu>
-        <StatusBar DockPanel.Dock="Bottom" Background = "#FF007ACC" Name="statbrMain">
+        <!--状态栏-->
+        <StatusBar Grid.Row="3" Background = "#FF007ACC" Name="statbrMain">
             <StatusBarItem>
                 <TextBlock Foreground="Black" 
                            Name="txtblkCurrentTime" Text="2019-9-4 20:12:12"
@@ -83,13 +91,17 @@
 
             </StatusBarItem>
         </StatusBar>
-        <Grid DockPanel.Dock="Bottom" 
-              HorizontalAlignment="Left">
+        <!--参数区-->
+        <Grid Grid.Row="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0" Grid.Column="0"
                         HorizontalAlignment="Left" 
                         Orientation="Horizontal">
                 <Button Margin="0,0,10,5" 
@@ -105,7 +117,7 @@
                         Click="BtnClearSendDataClick"
                         >_Clear</Button>
             </StackPanel>
-            <StackPanel Grid.Row="1" 
+            <StackPanel Grid.Row="1" Grid.Column="0"
                         Orientation="Horizontal">
                 <StackPanel>
                     <ComboBox Name="cmbCommMethod"
@@ -197,7 +209,6 @@
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -205,9 +216,15 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <CheckBox VerticalAlignment="Center" Margin="0,0,10,0"
-                              Name="chkHexDisplay">HexDisplay</CheckBox>
+                              Name="chkHexDisplay"
+                              Checked="ChkHexDisplayChecked"
+                              Unchecked="ChkHexDisplayChecked"
+                              >HexDisplay</CheckBox>
                     <CheckBox Grid.Row="1" VerticalAlignment="Center" Padding="4,-1,0,0"
-                              Name="chkHexSend">HexSend</CheckBox>
+                              Name="chkHexSend"
+                              Checked="ChkHexSendChecked"
+                              Unchecked="ChkHexSendChecked"
+                              >HexSend</CheckBox>
                     <Button Grid.Column="1" Grid.Row="0" >Save data</Button>
                     <CheckBox Grid.Column="1" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Center">Recv to File</CheckBox>
                     <CheckBox Grid.Column="2" Grid.Row="0" VerticalAlignment="Center">Timer</CheckBox>
@@ -223,8 +240,9 @@
                     <TextBlock Grid.Column="5" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Center">Code</TextBlock>
                     <ComboBox Grid.Column="6" Grid.Row="1" Width="Auto" Grid.ColumnSpan="3" ></ComboBox>
                     <TextBox Grid.Column="9" Grid.Row="1" Width="60"></TextBox>
-                    <TextBox Grid.Row="2" Grid.ColumnSpan="11"
+                    <TextBox Grid.Row="2" Grid.ColumnSpan="10"
                              Name="txtSendData"
+                             MaxHeight="110"
                              AcceptsReturn="True" 
                       TextWrapping = "Wrap" 
                       HorizontalScrollBarVisibility="Auto" 
@@ -235,15 +253,26 @@
                     </TextBox>
                 </Grid>
             </StackPanel>
+            <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+                <TextBox
+                    AcceptsReturn="True" 
+                      TextWrapping = "Wrap" 
+                      HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Auto" 
+                    MaxHeight="200"
+                    ></TextBox>
+            </Grid>
         </Grid>
-        <Grid>
+        <!--数据接收区-->
+        <Grid
+            Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="17*" />
                 <ColumnDefinition Width="740*"/>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition MaxWidth="0" Name="gridColDef2" Width="0*"/>
             </Grid.ColumnDefinitions>
-            <TextBox  Name="txtTerminal" 
+            <TextBox  Name="txtRecvData" 
                       
                       IsReadOnly="True"
                       AcceptsReturn="True" 
@@ -265,5 +294,5 @@
                 <TabItem Header="Header1" ></TabItem>
             </TabControl>
         </Grid>
-    </DockPanel>
+    </Grid>
 </Window>

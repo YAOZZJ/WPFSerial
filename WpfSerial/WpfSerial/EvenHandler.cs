@@ -16,6 +16,7 @@ namespace WpfSerial
         SerialClass SerialPort1 = new SerialClass();
         DataBinding SendDataCounterBing = new DataBinding();
         DataBinding RecvDataCounterBing = new DataBinding();
+        DispatcherTimer TimerSend = new DispatcherTimer();
         #endregion
         #region 串口通讯事件
         private void SerialPort1_ComReceiveDataEvent(object sender, SerialPortEventArgs e)
@@ -34,6 +35,11 @@ namespace WpfSerial
                 txtRecvData.ScrollToEnd();
             }));
         }
+        /// <summary>
+        /// 串口打开事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SerialPort1_ComOpenEvent(object sender, SerialPortEventArgs e)
         {
             if (SerialPort1.IsOpen)
@@ -61,6 +67,11 @@ namespace WpfSerial
                 Message(e.message);
             }
         }
+        /// <summary>
+        /// 串口关闭事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SerialPort1_ComCloseEvent(object sender, SerialPortEventArgs e)
         {
             if (!SerialPort1.IsOpen)
@@ -137,6 +148,7 @@ namespace WpfSerial
             Timer_1S.Tick += new EventHandler(TimeCycle_1S);
             Timer_1S.Interval = new TimeSpan(0, 0, 0, 1);
             Timer_1S.Start();
+            
         }
         /// <summary>
         /// 显示用户消息
@@ -146,9 +158,23 @@ namespace WpfSerial
         {
             StatItmMessage.Content = message;
         }
+        /// <summary>
+        /// 时间刷新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TimeCycle_1S(object sender, EventArgs e)
         {
             txtblkCurrentTime.Text = DateTime.Now.ToLocalTime().ToString();
+        }
+        /// <summary>
+        /// 定时发送
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TimerCycleSend(object sender, EventArgs e)
+        {
+            SendData();
         }
         #endregion
         #region UI事件
@@ -312,6 +338,14 @@ namespace WpfSerial
         /// <param name="e"></param>
         private void BtnSendDataClick(object sender, RoutedEventArgs e)
         {
+            SendData();
+        }
+        /// <summary>
+        /// 发送数据
+        /// </summary>
+        private void SendData()
+        {
+            if (!SerialPort1.IsOpen) return;
             if ((bool)chkHexSend.IsChecked)
             {
                 SerialPort1.SerialPortSend(UsrMethod.UsrConversion.HexString2Byte(txtSendData.Text));
@@ -322,6 +356,11 @@ namespace WpfSerial
             }
             SendDataCounterBing.IntValue = SerialPort1.sendBytesCount;
         }
+        /// <summary>
+        /// 通讯方式选择
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CmbCommMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cmb1 = sender as ComboBox;
@@ -340,6 +379,22 @@ namespace WpfSerial
                 e.Handled = !re.IsMatch(e.Text);
             }
         }
+        /// <summary>
+        /// 判断输入是否数字
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TxtSendCyclePreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+
+                Regex re = new Regex(@"[0-9]");
+                e.Handled = !re.IsMatch(e.Text);
+        }
+        /// <summary>
+        /// Hex发送更改
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChkHexSendChecked(object sender, RoutedEventArgs e)
         {
             if ((bool)chkHexSend.IsChecked)
@@ -351,6 +406,11 @@ namespace WpfSerial
                 txtSendData.Text = UsrMethod.UsrConversion.Hex2String(txtSendData.Text);
             }
         }
+        /// <summary>
+        /// Hex显示更改
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChkHexDisplayChecked(object sender, RoutedEventArgs e)
         {
             if ((bool)chkHexDisplay.IsChecked)
@@ -360,6 +420,37 @@ namespace WpfSerial
             else
             {
                 txtRecvData.Text = UsrMethod.UsrConversion.Hex2String(txtRecvData.Text);
+            }
+        }
+        /// <summary>
+        /// 最前端显示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChkWindowsTopChecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox chk1 = sender as CheckBox;
+            this.Topmost = (bool)chk1.IsChecked;
+        }
+        /// <summary>
+        /// 定时发送选择
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChkSendTimerChecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox chk1 = sender as CheckBox;
+            int time = Convert.ToInt32(txtSendCycle.Text);//异常处理未添加
+            if((bool)chk1.IsChecked)
+            {
+                TimerSend.Tick += new EventHandler(TimerCycleSend);
+                TimerSend.Interval = new TimeSpan(0, 0, 0, 0, time);
+                TimerSend.Start();
+            }
+            else
+            {
+                TimerSend.Stop();
+                TimerSend.Tick -= new EventHandler(TimerCycleSend);
             }
         }
         #endregion

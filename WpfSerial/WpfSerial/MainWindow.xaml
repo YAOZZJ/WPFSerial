@@ -6,7 +6,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
-        Title="数据调试器" Height="450" Width="870">
+        Title="数据调试器" MinHeight="450" MinWidth="770" Height="450" Width="770">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -111,8 +111,12 @@
                 <TextBox Margin="0,0,0,5" Width="240" />
                 <Button Margin="0,0,10,5">Send File</Button>
                 <Button Margin="0,0,0,5"  MaxWidth="60">Stop</Button>
-                <CheckBox VerticalAlignment="Center">Top</CheckBox>
-                <CheckBox VerticalAlignment="Center">Save</CheckBox>
+                <CheckBox VerticalAlignment="Center"
+                          Name="chkWindowsTop"
+                          Checked="ChkWindowsTopChecked"
+                          Unchecked="ChkWindowsTopChecked"
+                          >Top</CheckBox>
+                <!--<CheckBox VerticalAlignment="Center">Save</CheckBox>-->
                 <Button Margin="0,0,10,5" 
                         Click="BtnClearSendDataClick"
                         >_Clear</Button>
@@ -227,9 +231,16 @@
                               >HexSend</CheckBox>
                     <Button Grid.Column="1" Grid.Row="0" >Save data</Button>
                     <CheckBox Grid.Column="1" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Center">Recv to File</CheckBox>
-                    <CheckBox Grid.Column="2" Grid.Row="0" VerticalAlignment="Center">Timer</CheckBox>
+                    <CheckBox Grid.Column="2" Grid.Row="0" VerticalAlignment="Center"
+                              Name="chkSendTimer"
+                              Checked="ChkSendTimerChecked"
+                              Unchecked="ChkSendTimerChecked"
+                              >Timer</CheckBox>
                     <TextBlock Grid.Column="2" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Center">Times out :</TextBlock>
-                    <TextBox Grid.Column="3" Grid.Row="0" Width="50"/>
+                    <TextBox Grid.Column="3" Grid.Row="0" Width="50"
+                             Name="txtSendCycle"
+                             PreviewTextInput="TxtSendCyclePreviewTextInput"
+                             />
                     <TextBox Grid.Column="3" Grid.Row="1" Width="50"/>
                     <TextBlock Grid.Column="4" Grid.Row="0" Margin="0,0,10,0" VerticalAlignment="Center">ms</TextBlock>
                     <TextBlock Grid.Column="4" Grid.Row="1" VerticalAlignment="Center">ms</TextBlock>
@@ -254,8 +265,26 @@
                 </Grid>
             </StackPanel>
             <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button Grid.Column="0">btn1</Button>
+                <Button Grid.Column="1">btn2</Button>
+                <Button Grid.Column="2">btn3</Button>
+                <Button Grid.Column="3">btn4</Button>
+                <Button Grid.Column="4">btn5</Button>
                 <TextBox
+                    Grid.Row="1" Grid.ColumnSpan="5"
                     AcceptsReturn="True" 
+                    IsReadOnly="True"
                       TextWrapping = "Wrap" 
                       HorizontalScrollBarVisibility="Auto" 
                       VerticalScrollBarVisibility="Auto" 

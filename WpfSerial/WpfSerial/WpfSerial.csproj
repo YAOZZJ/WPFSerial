@@ -64,6 +64,7 @@
     <Compile Include="DataBinding.cs" />
     <Compile Include="EvenHandler.cs" />
     <Compile Include="UsrClass\SerialClass.cs" />
+    <Compile Include="UsrClass\UsrConfig.cs" />
     <Compile Include="UsrClass\UsrConsole.cs" />
     <Compile Include="UsrClass\UsrConversion.cs" />
     <Compile Include="UsrClass\UsrFileOperate.cs" />

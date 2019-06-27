@@ -477,13 +477,13 @@ namespace WpfSerial
 
         private void BtnDebug1Click(object sender, RoutedEventArgs e)
         {
-            txtDebug.Clear();
-            txtDebug.Text = UsrTextOperate.OpenDialog();
-            //usrFile = new UsrTextOperate(txtDebug.Text, "", Encoding.Default);
+            UsrConfigIni usrConfig = new UsrConfigIni();
+            usrConfig.Write("Parameter", "PortName", "9600");
 
         }
         private void BtnDebug2Click(object sender, RoutedEventArgs e)
         {
+
         }
         private void BtnDebug3Click(object sender, RoutedEventArgs e)
         {

@@ -6,7 +6,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
-        Title="数据调试器" MinHeight="450" MinWidth="770" Height="450" Width="770">
+        Title="数据调试器" MinHeight="450" MinWidth="770">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -19,10 +19,15 @@
             <MenuItem Header="_File" >
                 <!--主菜单-->
                 <!--触发事件-->
-                <MenuItem Header="_New" 
+                <!--<MenuItem Header="_New" />-->
+                <MenuItem Header="_Open" 
+                          Name="mnuItmOpen"
+                          Click="MnuItmOpen_Click"
                           />
-                <MenuItem Header="_Open" />
-                <MenuItem Header="_Save" />
+                <MenuItem Header="_Save" 
+                          Name="mnuItmSave"
+                          Click="MnuItmSave_Click"
+                          />
                 <Separator />
                 <!--分割器-->
                 <!--二级菜单-->
@@ -276,15 +281,31 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Button Grid.Column="0">btn1</Button>
-                <Button Grid.Column="1">btn2</Button>
-                <Button Grid.Column="2">btn3</Button>
-                <Button Grid.Column="3">btn4</Button>
-                <Button Grid.Column="4">btn5</Button>
+                <Button Grid.Column="0"
+                        Name="btnDebug1"
+                        Click="BtnDebug1Click"
+                        >btn1</Button>
+                <Button Grid.Column="1"
+                        Name="btnDebug2"
+                        Click="BtnDebug2Click"
+                        >btn2</Button>
+                <Button Grid.Column="2"
+                        Name="btnDebug3"
+                        Click="BtnDebug3Click"
+                        >btn3</Button>
+                <Button Grid.Column="3"
+                        Name="btnDebug4"
+                        Click="BtnDebug4Click"
+                        >btn4</Button>
+                <Button Grid.Column="4"
+                        Name="btnDebug5"
+                        Click="BtnDebug5Click"
+                        >btn5</Button>
                 <TextBox
+                    Name="txtDebug"
                     Grid.Row="1" Grid.ColumnSpan="5"
                     AcceptsReturn="True" 
-                    IsReadOnly="True"
+                    IsReadOnly="False"
                       TextWrapping = "Wrap" 
                       HorizontalScrollBarVisibility="Auto" 
                       VerticalScrollBarVisibility="Auto" 

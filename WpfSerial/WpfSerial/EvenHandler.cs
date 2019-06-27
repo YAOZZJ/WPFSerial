@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using UsrCommunication;
+using UsrMethod;
 
 namespace WpfSerial
 {
@@ -452,6 +454,45 @@ namespace WpfSerial
                 TimerSend.Stop();
                 TimerSend.Tick -= new EventHandler(TimerCycleSend);
             }
+        }
+
+        private void MnuItmOpen_Click(object sender, RoutedEventArgs e)
+        {
+            string path = UsrTextOperate.OpenDialog();
+            UsrMethod.UsrTextOperate usrFile = new UsrTextOperate(path, "", Encoding.Default);
+            
+            usrFile.Clear();
+            UsrMethod.UsrTextOperate usrFile2 = new UsrTextOperate(path, "", Encoding.Default);
+            txtSendData.Text = usrFile2.ReadLine(seek: "all");
+        }
+
+        private void MnuItmSave_Click(object sender, RoutedEventArgs e)
+        {
+            string path = UsrTextOperate.OpenDialog();
+            UsrMethod.UsrTextOperate usrFile = new UsrTextOperate(path, "", Encoding.Default);
+            usrFile.Clear();
+            usrFile = new UsrTextOperate(path, "", Encoding.Default);
+            usrFile.Write(txtRecvData.Text);
+        }
+
+        private void BtnDebug1Click(object sender, RoutedEventArgs e)
+        {
+            txtDebug.Clear();
+            txtDebug.Text = UsrTextOperate.OpenDialog();
+            //usrFile = new UsrTextOperate(txtDebug.Text, "", Encoding.Default);
+
+        }
+        private void BtnDebug2Click(object sender, RoutedEventArgs e)
+        {
+        }
+        private void BtnDebug3Click(object sender, RoutedEventArgs e)
+        {
+        }
+        private void BtnDebug4Click(object sender, RoutedEventArgs e)
+        {
+        }
+        private void BtnDebug5Click(object sender, RoutedEventArgs e)
+        {
         }
         #endregion
     }

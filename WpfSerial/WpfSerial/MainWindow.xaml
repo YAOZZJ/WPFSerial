@@ -128,16 +128,43 @@
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="0"
                         Orientation="Horizontal">
-                <StackPanel>
+                <DockPanel>
                     <ComboBox Name="cmbCommMethod"
                               SelectionChanged="CmbCommMethod_SelectionChanged"
+                              DockPanel.Dock="Top"
                               >
                         <ComboBoxItem>Serial</ComboBoxItem>
                         <ComboBoxItem>UDP</ComboBoxItem>
                         <ComboBoxItem>TCP Client</ComboBoxItem>
                         <ComboBoxItem>TCP Server</ComboBoxItem>
                     </ComboBox>
-                    <TabControl  Name="tabCtrlCommMethod">
+                    <Grid DockPanel.Dock="Right" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="2*" />
+                        </Grid.RowDefinitions>
+                        <Button Name="btnOpenSerialPort"
+                                        Click="BtnOpenSerialPortClick"
+                                        Grid.Row="0" Margin="10,0,0,0">
+                            Open
+                        </Button>
+                        <Button Name="btnRefreshSerialPort"
+                                        Click="BtnRefreshSerialPortClick"
+                                        Grid.Row="1" Margin="10,0,0,0">
+                            Refresh
+                        </Button>
+                        <Button
+                                    Name="btnSendData"
+                                    Click="BtnSendDataClick"
+                                        Grid.Row="3" Margin="10,0,0,0" 
+                                    Grid.RowSpan="2" Style="{DynamicResource AccentedSquareButtonStyle}" 
+                                    Content="   Send   "></Button>
+                    </Grid>
+                    <TabControl  Name="tabCtrlCommMethod"
+                                 DockPanel.Dock="Bottom"
+                                 >
                         <TabControl.ItemContainerStyle>
                             <Style>
                                 <Setter Property="TabItem.Visibility" 
@@ -147,7 +174,6 @@
                         <TabItem Header="Serial">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
@@ -173,26 +199,31 @@
                                           Grid.Row="3" Grid.Column="1"></ComboBox>
                                 <ComboBox Name="cmbParity" 
                                           Grid.Row="4" Grid.Column="1"></ComboBox>
-                                <Button Name="btnOpenSerialPort"
-                                        Click="BtnOpenSerialPortClick"
-                                        Grid.Row="0" Grid.Column="2" Margin="10,0,0,0">
-                                    Open
-                                </Button>
-                                <Button Name="btnRefreshSerialPort"
-                                        Click="BtnRefreshSerialPortClick"
-                                        Grid.Row="1" Grid.Column="2" Margin="10,0,0,0">
-                                    Refresh
-                                </Button>
-                                <Button
-                                    Name="btnSendData"
-                                    Click="BtnSendDataClick"
-                                        Grid.Row="3" Grid.Column="2" Margin="10,0,0,0" 
-                                    Grid.RowSpan="2" Style="{DynamicResource AccentedSquareButtonStyle}" 
-                                    Content="   Send   "></Button>
+                                
                             </Grid>
                         </TabItem>
                         <TabItem Header="UDP">
-                            <Label>UDP</Label>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0">Remote</TextBlock>
+                                <TextBlock Grid.Row="1">Local</TextBlock>
+                                <TextBox Grid.Row="0" Grid.Column="1"></TextBox>
+                                <ComboBox 
+                                    Name="cmbLocalNetAddr"
+                                    Grid.Row="1" Grid.Column="1"
+                                    IsEditable="True"
+                                    ></ComboBox>
+                                <TextBox Grid.Row="0" Grid.Column="2" MinWidth="20"></TextBox>
+                                <TextBox Grid.Row="1" Grid.Column="2" MinWidth="20"></TextBox>
+                            </Grid>
                         </TabItem>
 
                         <TabItem Header="TCP Client">
@@ -204,7 +235,7 @@
                         </TabItem>
 
                     </TabControl>
-                </StackPanel>
+                </DockPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>

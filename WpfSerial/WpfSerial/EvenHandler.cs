@@ -124,6 +124,11 @@ namespace WpfSerial
             {
                 cmbParity.Items.Add(str1);
             }
+            foreach(string str1 in UsrNetworkControl.GetLocalIP())
+            {
+                //cmbLocalNetAddr.Items.Clear();
+                cmbLocalNetAddr.Items.Add(str1);
+            }
             //***************************************************************
             //默认选项
             cmbSerialPortName.SelectedIndex = 0;
@@ -132,6 +137,7 @@ namespace WpfSerial
             cmbStopbits.SelectedIndex = 1;
             cmbParity.SelectedIndex = 0;
             cmbCommMethod.SelectedIndex = 0;
+            cmbLocalNetAddr.SelectedIndex = cmbLocalNetAddr.Items.Count-1;
             btnSendData.IsEnabled = false;
             //***************************************************************
             //控件使能初始化
@@ -366,7 +372,9 @@ namespace WpfSerial
         private void CmbCommMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cmb1 = sender as ComboBox;
-            tabCtrlCommMethod.SelectedIndex = cmb1.SelectedIndex;
+            //tabCtrlCommMethod.SelectedIndex = cmb1.SelectedIndex;
+            if (cmb1.SelectedIndex > 1) tabCtrlCommMethod.SelectedIndex = 1;
+            else tabCtrlCommMethod.SelectedIndex = cmb1.SelectedIndex;
         }
         /// <summary>
         /// 正则表达式文本输入判断
@@ -477,8 +485,11 @@ namespace WpfSerial
 
         private void BtnDebug1Click(object sender, RoutedEventArgs e)
         {
-            UsrConfigIni usrConfig = new UsrConfigIni();
-            usrConfig.Write("Parameter", "PortName", "9600");
+            foreach (string text in UsrNetworkControl.GetLocalIP())
+            {
+                txtDebug.Text += text +"\n";
+            }
+            //txtDebug.Text = UsrNetworkControl.GetLocalIP().Length.ToString();
 
         }
         private void BtnDebug2Click(object sender, RoutedEventArgs e)
@@ -493,6 +504,7 @@ namespace WpfSerial
         }
         private void BtnDebug5Click(object sender, RoutedEventArgs e)
         {
+            txtDebug.Clear();
         }
         #endregion
     }

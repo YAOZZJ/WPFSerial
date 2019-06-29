@@ -9,10 +9,11 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using UsrCommunication;
 using UsrMethod;
+using MahApps.Metro.Controls;
 
 namespace WpfSerial
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         #region Global data
         SerialClass SerialPort1 = new SerialClass();

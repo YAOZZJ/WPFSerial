@@ -1,12 +1,21 @@
-﻿<Window x:Class="WpfSerial.MainWindow"
+﻿<controls:MetroWindow x:Class="WpfSerial.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
+        ShowTitleBar="False"
         Title="数据调试器" MinHeight="450" MinWidth="770">
+    <controls:MetroWindow.Resources>
+        <!--<Style TargetType="Button">-->
+        <Style TargetType="{x:Type Button}" x:Key="ButtonStyle">
+            <Setter Property="Style"  Value="{DynamicResource AccentedSquareButtonStyle}"/>
+        </Style>
+    </controls:MetroWindow.Resources>
+    <!--WindowStyle="None"不显示标题栏,用metro UI后,直接用showtitlebar-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -15,55 +24,66 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <!--菜单栏-->
-        <Menu Grid.Row="0">
-            <MenuItem Header="_File" >
-                <!--主菜单-->
-                <!--触发事件-->
-                <!--<MenuItem Header="_New" />-->
-                <MenuItem Header="_Open" 
-                          Name="mnuItmOpen"
-                          Click="MnuItmOpen_Click"
-                          />
-                <MenuItem Header="_Save" 
-                          Name="mnuItmSave"
-                          Click="MnuItmSave_Click"
-                          />
-                <Separator />
-                <!--分割器-->
-                <!--二级菜单-->
-                <MenuItem Header="_COMM Port"
-                          Name="MnuItmCommPort">
-                    <MenuItem Header="_Fresh" Click="MnuItmFreshClick">
-                        <MenuItem.Icon>
-                            <Image Source="http://cdn1.iconfinder.com/data/icons/fatcow/16/bullet_red.png" />
-                        </MenuItem.Icon>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <Menu>
+                    <MenuItem Header="_File" >
+                        <!--主菜单-->
+                        <!--触发事件-->
+                        <!--<MenuItem Header="_New" />-->
+                        <MenuItem Header="_Open" 
+                              Name="mnuItmOpen"
+                              Click="MnuItmOpen_Click"
+                              />
+                        <MenuItem Header="_Save" 
+                              Name="mnuItmSave"
+                              Click="MnuItmSave_Click"
+                              />
+                        <Separator />
+                        <!--分割器-->
+                        <!--二级菜单-->
+                        <MenuItem Header="_COMM Port"
+                              Name="MnuItmCommPort">
+                            <MenuItem Header="_Fresh" Click="MnuItmFreshClick">
+                                <MenuItem.Icon>
+                                    <Image Source="http://cdn1.iconfinder.com/data/icons/fatcow/16/bullet_red.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="_TCPClient" 
+                                  Name="MnuItmTCPClient"
+                                  Click="MnuItmCommMethodClick"
+                                  IsCheckable="True" IsChecked="True"/>
+                            <MenuItem Header="_TCPServer" 
+                                  Name="MnuItmTCPServer"
+                                  Click="MnuItmCommMethodClick"
+                                  IsCheckable="True" IsChecked="False"/>
+                            <MenuItem Header="_UDP" 
+                                  Name="MnuItmUDP"
+                                  Click="MnuItmCommMethodClick"
+                                  IsCheckable="True" IsChecked="False"/>
+                            <Separator />
+                            <MenuItem Header="_Serial" Name="MnuItmSerial"/>
+                        </MenuItem>
+                        <Separator />
+                        <MenuItem Header="_Exit" Name = "MnuItmExit" Click = "MnuItmExitClick" >
+                            <MenuItem.Icon>
+                                <Image Source="http://cdn1.iconfinder.com/data/icons/fatcow/16/bullet_red.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
-                    <MenuItem Header="_TCPClient" 
-                              Name="MnuItmTCPClient"
-                              Click="MnuItmCommMethodClick"
-                              IsCheckable="True" IsChecked="True"/>
-                    <MenuItem Header="_TCPServer" 
-                              Name="MnuItmTCPServer"
-                              Click="MnuItmCommMethodClick"
-                              IsCheckable="True" IsChecked="False"/>
-                    <MenuItem Header="_UDP" 
-                              Name="MnuItmUDP"
-                              Click="MnuItmCommMethodClick"
-                              IsCheckable="True" IsChecked="False"/>
-                    <Separator />
-                    <MenuItem Header="_Serial" Name="MnuItmSerial"/>
-                </MenuItem>
-                <Separator />
-                <MenuItem Header="_Exit" Name = "MnuItmExit" Click = "MnuItmExitClick" >
-                    <MenuItem.Icon>
-                        <Image Source="http://cdn1.iconfinder.com/data/icons/fatcow/16/bullet_red.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="_Edit"></MenuItem>
-            <MenuItem Header="_Option"></MenuItem>
-            <MenuItem Header="_Help"></MenuItem>
-        </Menu>
+                    <MenuItem Header="_Edit"></MenuItem>
+                    <MenuItem Header="_Option"></MenuItem>
+                    <MenuItem Header="_Help"></MenuItem>
+                </Menu>
+            </StackPanel>
+            <StackPanel Grid.Column="1"
+                Orientation="Horizontal" HorizontalAlignment="Right">
+            </StackPanel>
+        </Grid>
         <!--状态栏-->
         <StatusBar Grid.Row="3" Background = "#FF007ACC" Name="statbrMain">
             <StatusBarItem>
@@ -77,7 +97,9 @@
             <StatusBarItem>
                 <TextBlock Foreground="Black"   
                            />
-                --><!--无法自动更新,感到很失望Text="{Binding Source={x:Static system:DateTime.Now}, StringFormat=Time: {0:HH:mm:ss}}"--><!--
+                -->
+            <!--无法自动更新,感到很失望Text="{Binding Source={x:Static system:DateTime.Now}, StringFormat=Time: {0:HH:mm:ss}}"-->
+            <!--
             </StatusBarItem>-->
             <Separator />
             <StatusBarItem Foreground="Black">S:</StatusBarItem>
@@ -113,7 +135,7 @@
                         Click="BtnClearRecvDataClick"
                         >_Clear</Button>
                 <Button Margin="0,0,0,5" >_Open</Button>
-                <TextBox Margin="0,0,0,5" Width="240" />
+                <TextBox Margin="0,0,0,5" Width="240" controls:TextBoxHelper.ClearTextButton="True"/>
                 <Button Margin="0,0,10,5">Send File</Button>
                 <Button Margin="0,0,0,5"  MaxWidth="60">Stop</Button>
                 <CheckBox VerticalAlignment="Center"
@@ -147,7 +169,8 @@
                         </Grid.RowDefinitions>
                         <Button Name="btnOpenSerialPort"
                                         Click="BtnOpenSerialPortClick"
-                                        Grid.Row="0" Margin="10,0,0,0">
+                                        Grid.Row="0" Margin="10,0,0,0"
+                                >
                             Open
                         </Button>
                         <Button Name="btnRefreshSerialPort"
@@ -199,7 +222,7 @@
                                           Grid.Row="3" Grid.Column="1"></ComboBox>
                                 <ComboBox Name="cmbParity" 
                                           Grid.Row="4" Grid.Column="1"></ComboBox>
-                                
+
                             </Grid>
                         </TabItem>
                         <TabItem Header="UDP">
@@ -349,7 +372,8 @@
             Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="17*" />
-                <ColumnDefinition Width="740*"/>
+                <ColumnDefinition Width="56*"/>
+                <ColumnDefinition Width="682*"/>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition MaxWidth="0" Name="gridColDef2" Width="0*"/>
             </Grid.ColumnDefinitions>
@@ -360,12 +384,12 @@
                       TextWrapping = "Wrap" 
                       HorizontalScrollBarVisibility="Auto" 
                       VerticalScrollBarVisibility="Auto" 
-                      Grid.Column="0" Grid.ColumnSpan="2">
+                      Grid.Column="0" Grid.ColumnSpan="3">
             </TextBox>
-            <GridSplitter Grid.Column="2" 
+            <GridSplitter Grid.Column="3" 
                           HorizontalAlignment="Stretch" 
                           Visibility="Collapsed"/>
-            <TabControl Grid.Column="3">
+            <TabControl Grid.Column="4">
                 <TabControl.ItemContainerStyle>
                     <Style>
                         <Setter Property="TabItem.Visibility" 
@@ -376,4 +400,4 @@
             </TabControl>
         </Grid>
     </Grid>
-</Window>
+</controls:MetroWindow>

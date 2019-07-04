@@ -8,7 +8,7 @@
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
         ShowTitleBar="False"
-        Title="数据调试器" MinHeight="450" MinWidth="770">
+        Title="数据调试器">
     <controls:MetroWindow.Resources>
         <!--<Style TargetType="Button">-->
         <Style TargetType="{x:Type Button}" x:Key="ButtonStyle">
@@ -16,15 +16,9 @@
         </Style>
     </controls:MetroWindow.Resources>
     <!--WindowStyle="None"不显示标题栏,用metro UI后,直接用showtitlebar-->
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
+    <DockPanel>
         <!--菜单栏-->
-        <Grid Grid.Row="0">
+        <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -75,6 +69,31 @@
                             </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>
+                    <MenuItem Header="_View">
+                        <MenuItem Header="_Top"
+                            Name="mnuItmTopDisplay"
+                            IsCheckable="True"
+                            IsChecked="False"
+                            Checked="MnuItmTopDisplayChecked"
+                            Unchecked="MnuItmTopDisplayChecked"
+                            >
+                        </MenuItem>
+                        <MenuItem Header="_Hide" 
+                            Name="mnuItmHideParameter"
+                            IsCheckable="True"
+                            IsChecked="False"
+                            Click="MnuItmHideParameterChecked"
+                            >
+                        </MenuItem>
+                        <MenuItem Header="_Others"
+                                  IsCheckable="True"
+                                  IsChecked="False"
+                                  Name="mnuItmOthers"
+                                  Click="MnuItmOthersClick"
+                                  >
+                            
+                        </MenuItem>
+                    </MenuItem>
                     <MenuItem Header="_Edit"></MenuItem>
                     <MenuItem Header="_Option"></MenuItem>
                     <MenuItem Header="_Help"></MenuItem>
@@ -85,7 +104,8 @@
             </StackPanel>
         </Grid>
         <!--状态栏-->
-        <StatusBar Grid.Row="3" Background = "#FF007ACC" Name="statbrMain">
+        <StatusBar DockPanel.Dock="Bottom"
+                   Background = "#FF007ACC" Name="statbrMain">
             <StatusBarItem>
                 <TextBlock Foreground="Black" 
                            Name="txtblkCurrentTime" Text="2019-9-4 20:12:12"
@@ -118,75 +138,120 @@
 
             </StatusBarItem>
         </StatusBar>
-        <!--参数区-->
-        <Grid Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <!--发送区-->
+        <Grid DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Row="0" Grid.Column="0"
-                        HorizontalAlignment="Left" 
-                        Orientation="Horizontal">
-                <Button Margin="0,0,10,5" 
+            <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="3">
+                        <Button Margin="10,0,0,3"
                         Click="BtnClearRecvDataClick"
-                        >_Clear</Button>
-                <Button Margin="0,0,0,5" >_Open</Button>
-                <TextBox Margin="0,0,0,5" Width="240" controls:TextBoxHelper.ClearTextButton="True"/>
-                <Button Margin="0,0,10,5">Send File</Button>
-                <Button Margin="0,0,0,5"  MaxWidth="60">Stop</Button>
-                <CheckBox VerticalAlignment="Center"
-                          Name="chkWindowsTop"
-                          Checked="ChkWindowsTopChecked"
-                          Unchecked="ChkWindowsTopChecked"
-                          >Top</CheckBox>
-                <!--<CheckBox VerticalAlignment="Center">Save</CheckBox>-->
-                <Button Margin="0,0,10,5" 
+                        >_Clear Recv</Button>
+                        <!--<CheckBox VerticalAlignment="Center">Save</CheckBox>-->
+                        <Button Margin="10,0,0,3"
                         Click="BtnClearSendDataClick"
-                        >_Clear</Button>
-            </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="0"
-                        Orientation="Horizontal">
-                <DockPanel>
+                        >_Clear Send</Button>
+                    </StackPanel>
+                    <Button Name="btnOpenSerialPort" Grid.Row="2" Grid.Column="0"
+                                        Click="BtnOpenSerialPortClick"
+                                        Margin="10,0,0,0"
+                                >
+                        Open
+                    </Button>
+                    <Button Name="btnRefreshSerialPort" Grid.Row="2" Grid.Column="1"
+                                        Click="BtnRefreshSerialPortClick"
+                                        Margin="10,0,0,0">
+                        Refresh
+                    </Button>
+                    <Button Name="btnSendData" Grid.Row="2" Grid.Column="2"
+                                    Click="BtnSendDataClick"
+                                    Margin="10,0,0,0" 
+                                    Style="{DynamicResource AccentedSquareButtonStyle}" 
+                                    Content="   Send   ">
+
+                    </Button>
+                </Grid>
+                <TextBox Name="txtSendData" Grid.Column="1"
+                             AcceptsReturn="True" 
+                      TextWrapping = "Wrap" 
+                      HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Auto" 
+                      input:InputMethod.IsInputMethodEnabled="false"
+                             PreviewTextInput="TxtSendData_PreviewTextInput"
+                             >
+                </TextBox>
+            <Grid Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button Grid.Column="0"
+                        Name="btnDebug1"
+                        Click="BtnDebug1Click"
+                        >btn1</Button>
+                <Button Grid.Column="1"
+                        Name="btnDebug2"
+                        Click="BtnDebug2Click"
+                        >btn2</Button>
+                <Button Grid.Column="2"
+                        Name="btnDebug3"
+                        Click="BtnDebug3Click"
+                        >btn3</Button>
+                <Button Grid.Column="3"
+                        Name="btnDebug4"
+                        Click="BtnDebug4Click"
+                        >btn4</Button>
+                <Button Grid.Column="4"
+                        Name="btnDebug5"
+                        Click="BtnDebug5Click"
+                        >btn5</Button>
+                <TextBox
+                    Name="txtDebug"
+                    Grid.Row="1" Grid.ColumnSpan="5"
+                    AcceptsReturn="True" 
+                    IsReadOnly="False"
+                      TextWrapping = "Wrap" 
+                      HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Auto" 
+                    MaxHeight="200"
+                    ></TextBox>
+            </Grid>
+        </Grid>
+        <!--参数区-->
+        <DockPanel DockPanel.Dock="Left"
+                   Name="docPnlParameter"
+                   >
+            <GroupBox Header="Port Setting" DockPanel.Dock="Top">
+                <StackPanel>
                     <ComboBox Name="cmbCommMethod"
                               SelectionChanged="CmbCommMethod_SelectionChanged"
-                              DockPanel.Dock="Top"
                               >
                         <ComboBoxItem>Serial</ComboBoxItem>
                         <ComboBoxItem>UDP</ComboBoxItem>
                         <ComboBoxItem>TCP Client</ComboBoxItem>
                         <ComboBoxItem>TCP Server</ComboBoxItem>
                     </ComboBox>
-                    <Grid DockPanel.Dock="Right" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="2*" />
-                        </Grid.RowDefinitions>
-                        <Button Name="btnOpenSerialPort"
-                                        Click="BtnOpenSerialPortClick"
-                                        Grid.Row="0" Margin="10,0,0,0"
-                                >
-                            Open
-                        </Button>
-                        <Button Name="btnRefreshSerialPort"
-                                        Click="BtnRefreshSerialPortClick"
-                                        Grid.Row="1" Margin="10,0,0,0">
-                            Refresh
-                        </Button>
-                        <Button
-                                    Name="btnSendData"
-                                    Click="BtnSendDataClick"
-                                        Grid.Row="3" Margin="10,0,0,0" 
-                                    Grid.RowSpan="2" Style="{DynamicResource AccentedSquareButtonStyle}" 
-                                    Content="   Send   "></Button>
-                    </Grid>
                     <TabControl  Name="tabCtrlCommMethod"
-                                 DockPanel.Dock="Bottom"
                                  >
                         <TabControl.ItemContainerStyle>
                             <Style>
@@ -201,11 +266,11 @@
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <Label Grid.Row="0">Port</Label>
                                 <Label Grid.Row="1">BaudRate</Label>
@@ -258,146 +323,75 @@
                         </TabItem>
 
                     </TabControl>
-                </DockPanel>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <CheckBox VerticalAlignment="Center" Margin="0,0,10,0"
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Send&amp;Receive" DockPanel.Dock="Top">
+                <WrapPanel
+                    MaxWidth="180">
+                    <CheckBox
+                        VerticalAlignment="Center" Margin="0,0,10,0"
                               Name="chkHexDisplay"
                               Checked="ChkHexDisplayChecked"
                               Unchecked="ChkHexDisplayChecked"
                               >HexDisplay</CheckBox>
-                    <CheckBox Grid.Row="1" VerticalAlignment="Center" Padding="4,-1,0,0"
+                    <CheckBox
+                              VerticalAlignment="Center" Padding="4,-1,0,0"
                               Name="chkHexSend"
                               Checked="ChkHexSendChecked"
                               Unchecked="ChkHexSendChecked"
                               >HexSend</CheckBox>
-                    <Button Grid.Column="1" Grid.Row="0" >Save data</Button>
-                    <CheckBox Grid.Column="1" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Center">Recv to File</CheckBox>
-                    <CheckBox Grid.Column="2" Grid.Row="0" VerticalAlignment="Center"
+                    <TextBlock  VerticalAlignment="Center">Verify</TextBlock>
+                    <TextBox  Width="20" Margin="0,0,10,0"></TextBox>
+                    <TextBlock  Margin="0,0,10,0" VerticalAlignment="Center">To</TextBlock>
+                    <ComboBox  Width="60" ></ComboBox>
+                    <TextBlock Margin="0,0,10,0" VerticalAlignment="Center">Code</TextBlock>
+                    <ComboBox Width="Auto" ></ComboBox>
+                    <TextBox Width="60"></TextBox>
+                    <CheckBox  VerticalAlignment="Center"
                               Name="chkSendTimer"
                               Checked="ChkSendTimerChecked"
                               Unchecked="ChkSendTimerChecked"
                               >Timer</CheckBox>
-                    <TextBlock Grid.Column="2" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Center">Times out :</TextBlock>
-                    <TextBox Grid.Column="3" Grid.Row="0" Width="50"
+                    <TextBox  Width="50"
                              Name="txtSendCycle"
                              PreviewTextInput="TxtSendCyclePreviewTextInput"
                              />
-                    <TextBox Grid.Column="3" Grid.Row="1" Width="50"/>
-                    <TextBlock Grid.Column="4" Grid.Row="0" Margin="0,0,10,0" VerticalAlignment="Center">ms</TextBlock>
-                    <TextBlock Grid.Column="4" Grid.Row="1" VerticalAlignment="Center">ms</TextBlock>
-                    <TextBlock Grid.Column="5" Grid.Row="0" VerticalAlignment="Center">Verify</TextBlock>
-                    <TextBox Grid.Column="6" Grid.Row="0" Width="20" Margin="0,0,10,0"></TextBox>
-                    <TextBlock Grid.Column="7" Grid.Row="0" Margin="0,0,10,0" VerticalAlignment="Center">To</TextBlock>
-                    <ComboBox Grid.Column="8" Grid.Row="0" Width="60" ></ComboBox>
-                    <TextBlock Grid.Column="5" Grid.Row="1" Margin="0,0,10,0" VerticalAlignment="Center">Code</TextBlock>
-                    <ComboBox Grid.Column="6" Grid.Row="1" Width="Auto" Grid.ColumnSpan="3" ></ComboBox>
-                    <TextBox Grid.Column="9" Grid.Row="1" Width="60"></TextBox>
-                    <TextBox Grid.Row="2" Grid.ColumnSpan="10"
-                             Name="txtSendData"
-                             MaxHeight="110"
-                             AcceptsReturn="True" 
-                      TextWrapping = "Wrap" 
-                      HorizontalScrollBarVisibility="Auto" 
-                      VerticalScrollBarVisibility="Auto" 
-                      input:InputMethod.IsInputMethodEnabled="false"
-                             PreviewTextInput="TxtSendData_PreviewTextInput"
-                             >
-                    </TextBox>
-                </Grid>
-            </StackPanel>
-            <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Button Grid.Column="0"
-                        Name="btnDebug1"
-                        Click="BtnDebug1Click"
-                        >btn1</Button>
-                <Button Grid.Column="1"
-                        Name="btnDebug2"
-                        Click="BtnDebug2Click"
-                        >btn2</Button>
-                <Button Grid.Column="2"
-                        Name="btnDebug3"
-                        Click="BtnDebug3Click"
-                        >btn3</Button>
-                <Button Grid.Column="3"
-                        Name="btnDebug4"
-                        Click="BtnDebug4Click"
-                        >btn4</Button>
-                <Button Grid.Column="4"
-                        Name="btnDebug5"
-                        Click="BtnDebug5Click"
-                        >btn5</Button>
-                <TextBox
-                    Name="txtDebug"
-                    Grid.Row="1" Grid.ColumnSpan="5"
-                    AcceptsReturn="True" 
-                    IsReadOnly="False"
-                      TextWrapping = "Wrap" 
-                      HorizontalScrollBarVisibility="Auto" 
-                      VerticalScrollBarVisibility="Auto" 
-                    MaxHeight="200"
-                    ></TextBox>
-            </Grid>
-        </Grid>
+                    <TextBlock Margin="0,0,10,0" VerticalAlignment="Center">ms</TextBlock>
+                    <TextBlock Margin="0,0,10,0" VerticalAlignment="Center">Times out :</TextBlock>
+                    <TextBox Width="50"/>
+                    <TextBlock VerticalAlignment="Center">ms</TextBlock>
+                    <Button>Save data</Button>
+                    <CheckBox Margin="0,0,10,0" VerticalAlignment="Center">Recv to File</CheckBox>
+                </WrapPanel>
+            </GroupBox>
+        </DockPanel>
         <!--数据接收区-->
-        <Grid
-            Grid.Row="1">
+        <Grid >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="17*" />
-                <ColumnDefinition Width="56*"/>
-                <ColumnDefinition Width="682*"/>
-                <ColumnDefinition Width="5" />
-                <ColumnDefinition MaxWidth="0" Name="gridColDef2" Width="0*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" Name="cDefOthers"/>
             </Grid.ColumnDefinitions>
             <TextBox  Name="txtRecvData" 
-                      
+                      Grid.Column="0"
                       IsReadOnly="True"
                       AcceptsReturn="True" 
                       TextWrapping = "Wrap" 
                       HorizontalScrollBarVisibility="Auto" 
-                      VerticalScrollBarVisibility="Auto" 
-                      Grid.Column="0" Grid.ColumnSpan="3">
+                      VerticalScrollBarVisibility="Auto">
             </TextBox>
-            <GridSplitter Grid.Column="3" 
+            <GridSplitter Grid.Column="1" Grid.Row="0"
+                          Name="gridSplitter1"
+                          Visibility="Collapsed"
                           HorizontalAlignment="Stretch" 
-                          Visibility="Collapsed"/>
-            <TabControl Grid.Column="4">
-                <TabControl.ItemContainerStyle>
-                    <Style>
-                        <Setter Property="TabItem.Visibility" 
-                                Value="Collapsed"/>
-                    </Style>
-                </TabControl.ItemContainerStyle>
-                <TabItem Header="Header1" ></TabItem>
+                          Width="5"/>
+            <TabControl Grid.Column="2"
+                        Name="tabOthers"
+                        Visibility="Collapsed"
+                        >
+                <TabItem Header="Header1" >
+                </TabItem>
             </TabControl>
         </Grid>
-    </Grid>
+    </DockPanel>
 </controls:MetroWindow>

@@ -438,10 +438,37 @@ namespace WpfSerial
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ChkWindowsTopChecked(object sender, RoutedEventArgs e)
+        private void MnuItmTopDisplayChecked(object sender, RoutedEventArgs e)
         {
-            CheckBox chk1 = sender as CheckBox;
-            this.Topmost = (bool)chk1.IsChecked;
+            // MenuItem chk1 = sender as MenuItem;
+            //this.Topmost = (bool)chk1.IsChecked;
+            this.Topmost = (bool)mnuItmTopDisplay.IsChecked;
+        }
+        private void MnuItmHideParameterChecked(object sender, RoutedEventArgs e)
+        {
+            if((bool)mnuItmHideParameter.IsChecked)
+            {
+                this.docPnlParameter.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                this.docPnlParameter.Visibility = Visibility.Visible;
+            }
+        }
+        private void MnuItmOthersClick(object sender, RoutedEventArgs e)
+        {
+            if((bool)mnuItmOthers.IsChecked)
+            {
+                tabOthers.Visibility = Visibility.Visible;
+                gridSplitter1.Visibility = Visibility.Visible;
+                cDefOthers.Width = default;
+            }
+            else
+            {
+                tabOthers.Visibility = Visibility.Collapsed;
+                gridSplitter1.Visibility = Visibility.Collapsed;
+                cDefOthers.Width = GridLength.Auto;
+            }
         }
         /// <summary>
         /// 定时发送选择
@@ -486,16 +513,11 @@ namespace WpfSerial
 
         private void BtnDebug1Click(object sender, RoutedEventArgs e)
         {
-            foreach (string text in UsrNetworkControl.GetLocalIP())
-            {
-                txtDebug.Text += text +"\n";
-            }
-            //txtDebug.Text = UsrNetworkControl.GetLocalIP().Length.ToString();
-
+            
         }
         private void BtnDebug2Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
         private void BtnDebug3Click(object sender, RoutedEventArgs e)
         {

@@ -3,13 +3,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using UsrCommunication;
 using UsrMethod;
 using MahApps.Metro.Controls;
+using Microsoft.Research.DynamicDataDisplay;
+using Microsoft.Research.DynamicDataDisplay.DataSources;
 
 namespace WpfSerial
 {
@@ -157,7 +157,9 @@ namespace WpfSerial
             Timer_1S.Tick += new EventHandler(TimeCycle_1S);
             Timer_1S.Interval = new TimeSpan(0, 0, 0, 1);
             Timer_1S.Start();
-            
+            //***************************************************************
+            //gridSplitter1.Visibility = Visibility.Collapsed;
+            //tabOthers.Visibility = Visibility.Collapsed;
         }
         /// <summary>
         /// 显示用户消息
@@ -524,11 +526,38 @@ namespace WpfSerial
         }
         private void BtnDebug4Click(object sender, RoutedEventArgs e)
         {
+            MainWindow_Loaded();
         }
         private void BtnDebug5Click(object sender, RoutedEventArgs e)
         {
             txtDebug.Clear();
         }
         #endregion
+        void MainWindow_Loaded()
+        {
+            // Prepare data in arrays
+            const int N = 1000;
+            double[] x = new double[N];
+            double[] y = new double[N];
+            x[0] = 0;
+            y[0] = 0;
+            for (int i = 1; i < N; i++)
+            {
+                x[i] = i * 0.1;
+                y[i] = Math.Sin(x[i])/i;
+            }
+
+            // Create data sources:
+            var xDataSource = x.AsXDataSource();
+            var yDataSource = y.AsYDataSource();
+
+            CompositeDataSource compositeDataSource = xDataSource.Join(yDataSource);
+
+            // adding graph to plotter
+            plotter.AddLineGraph(compositeDataSource, Colors.Goldenrod, 3, "Sine");
+
+            // Force evertyhing plotted to be visible
+            //plotter.FitToView();
+        }
     }
 }

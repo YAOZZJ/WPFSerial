@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
         ShowTitleBar="False"
@@ -368,9 +369,9 @@
         <!--数据接收区-->
         <Grid >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto" Name="cDefOthers"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" Name="cDefOthers"/>
             </Grid.ColumnDefinitions>
             <TextBox  Name="txtRecvData" 
                       Grid.Column="0"
@@ -382,14 +383,72 @@
             </TextBox>
             <GridSplitter Grid.Column="1" Grid.Row="0"
                           Name="gridSplitter1"
-                          Visibility="Collapsed"
+                          
                           HorizontalAlignment="Stretch" 
                           Width="5"/>
             <TabControl Grid.Column="2"
                         Name="tabOthers"
-                        Visibility="Collapsed"
+                        
                         >
-                <TabItem Header="Header1" >
+                <TabItem Header="LineGraph" >
+                    <d3:ChartPlotter Name="plotter">
+                        <d3:Header TextBlock.FontSize="24">Example</d3:Header>
+
+                        <!--<d3:HorizontalAxis Visibility="Visible"  ShowMinorTicks="False" Height="20"/>-->
+                        <!--
+            常规刻度[默认显示]
+            Visibility:是否显示刻度轴[Visible,Hidden]
+            ShowMinorTicks:是否显示短刻度线
+            Height:刻度轴高度，0就相当于隐藏刻度轴
+            -->
+
+                        <!--整数刻度-->
+                        <!--<d3:HorizontalIntegerAxis/>-->
+                        <!--时间轴[年月日时分秒]刻度-->
+                        <!--<d3:HorizontalDateTimeAxis/>-->
+                        <!--<d3:HorizontalTimeSpanAxis/>-->
+
+
+                        <!--<d3:HorizontalAxis Visibility="Visible"  ShowMinorTicks="False" Height="20"/>-->
+                        <d3:VerticalAxisTitle>Sin Value</d3:VerticalAxisTitle>
+                        <d3:HorizontalAxisTitle>Argument</d3:HorizontalAxisTitle>
+
+                        <!--
+            垂直于Y轴
+            Value:对应的Y轴刻度值
+            Stroke:画线的颜色
+            StrokeThickness:画线的厚度
+            StrokeDashArray:画虚线
+            -->
+                        <d3:HorizontalLine Value="1" Stroke="Aqua" StrokeThickness="1" StrokeDashArray="4,5" />
+                        <!--垂直于X轴-->
+                        <d3:VerticalLine />
+
+                        <!-- 
+            十字光标                   
+            AutoHide: 鼠标离开绘图仪时是否自动隐藏光标行。[默认：True]
+            Position: 光标的位置(在AutoHide=False的时候有效)
+            FollowMouse: 是否跟随鼠标光标位置。[默认：True]
+            CustomXFormat: X标签的自定义格式字符串。
+            CustomYFormat: Y标签的自定义格式字符串。
+            XTextMapping: x label-函数的文本映射，该函数方法根据数据中鼠标的x坐标生成文本。
+            YTextMapping: y label-函数的文本映射，该函数方法根据数据中鼠标的x坐标生成文本。
+            ShowHorizontalLine: 是否显示水平线
+            ShowVerticalLine: 是否显示竖线
+            LineStroke: 光标线的颜色
+            LineStrokeThickness: 光标线的粗细
+            LineStrokeDashArray:创建虚线
+            -->
+                        <d3:CursorCoordinateGraph  AutoHide="False"  CustomXFormat="a" LineStroke="Aqua"/>
+                        <!--
+            两条轴上的线，显示当前光标位置
+            ShowHorizontalLine:是否显示在X轴上光标的位置
+            ShowVerticalLine:是否显示在Y轴上光标的位置
+            -->
+                        <d3:AxisCursorGraph ShowHorizontalLine="True" />
+                    </d3:ChartPlotter>
+                </TabItem>
+                <TabItem Header="Bar Chart" >
                 </TabItem>
             </TabControl>
         </Grid>

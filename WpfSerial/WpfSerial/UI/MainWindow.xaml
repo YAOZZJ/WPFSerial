@@ -391,7 +391,7 @@
                         
                         >
                 <TabItem Header="LineGraph" >
-                    <d3:ChartPlotter Name="plotter">
+                    <d3:ChartPlotter Name="plotter" Background="Transparent" Foreground="#FF00DBE7">
                         <d3:Header TextBlock.FontSize="24">Example</d3:Header>
 
                         <!--<d3:HorizontalAxis Visibility="Visible"  ShowMinorTicks="False" Height="20"/>-->
@@ -446,6 +446,7 @@
             ShowVerticalLine:是否显示在Y轴上光标的位置
             -->
                         <d3:AxisCursorGraph ShowHorizontalLine="True" />
+                        <d3:AxisCursorGraph ShowVerticalLine="True" />
                     </d3:ChartPlotter>
                 </TabItem>
                 <TabItem Header="Bar Chart" >

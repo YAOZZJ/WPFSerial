@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -7,12 +8,6 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using UsrCommunication;
 using UsrMethod;
-using MahApps.Metro.Controls;
-using Microsoft.Research.DynamicDataDisplay;
-using Microsoft.Research.DynamicDataDisplay.DataSources;
-using Microsoft.Research.DynamicDataDisplay.PointMarkers;
-using System.Diagnostics;
-using System.Collections;
 
 namespace WpfSerial
 {
@@ -83,31 +78,31 @@ namespace WpfSerial
         {
             if (!SerialPort1.IsOpen)
             {
-                    Dispatcher.Invoke(new Action(() =>
-                {
-                    Message("Closed");
-                    btnOpenSerialPort.Content = "Open";
-                    btnOpenSerialPort.Background = default;
-                    statbrMain.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0x7A, 0xCC));
-                    cmbBaudRate.IsEnabled = true;
-                    cmbCommMethod.IsEnabled = true;
-                    cmbDataBits.IsEnabled = true;
-                    cmbParity.IsEnabled = true;
-                    cmbSerialPortName.IsEnabled = true;
-                    cmbStopbits.IsEnabled = true;
-                    btnRefreshSerialPort.IsEnabled = true;
-                    btnSendData.IsEnabled = false;
-                    MnuItmCommPort.IsEnabled = true;
-                }));
-                    SerialPort1.ComReceiveDataEvent -= SerialPort1_ComReceiveDataEvent;
+                Dispatcher.Invoke(new Action(() =>
+            {
+                Message("Closed");
+                btnOpenSerialPort.Content = "Open";
+                btnOpenSerialPort.Background = default;
+                statbrMain.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0x7A, 0xCC));
+                cmbBaudRate.IsEnabled = true;
+                cmbCommMethod.IsEnabled = true;
+                cmbDataBits.IsEnabled = true;
+                cmbParity.IsEnabled = true;
+                cmbSerialPortName.IsEnabled = true;
+                cmbStopbits.IsEnabled = true;
+                btnRefreshSerialPort.IsEnabled = true;
+                btnSendData.IsEnabled = false;
+                MnuItmCommPort.IsEnabled = true;
+            }));
+                SerialPort1.ComReceiveDataEvent -= SerialPort1_ComReceiveDataEvent;
             }
         }
         #endregion
-            #region 普通方法
-            /// <summary>
-            /// 程序加载时执行,combobox列表初始化
-            /// </summary>
-            private void Startup()
+        #region 普通方法
+        /// <summary>
+        /// 程序加载时执行,combobox列表初始化
+        /// </summary>
+        private void Startup()
         {
             foreach (string str1 in SerialClass.GetSerialPropertyValue(SerialClass.SerialProperty.PortName))
             {
@@ -129,7 +124,7 @@ namespace WpfSerial
             {
                 cmbParity.Items.Add(str1);
             }
-            foreach(string str1 in UsrNetworkControl.GetLocalIP())
+            foreach (string str1 in UsrNetworkControl.GetLocalIP())
             {
                 //cmbLocalNetAddr.Items.Clear();
                 cmbLocalNetAddr.Items.Add(str1);
@@ -142,7 +137,7 @@ namespace WpfSerial
             cmbStopbits.SelectedIndex = 1;
             cmbParity.SelectedIndex = 0;
             cmbCommMethod.SelectedIndex = 0;
-            cmbLocalNetAddr.SelectedIndex = cmbLocalNetAddr.Items.Count-1;
+            cmbLocalNetAddr.SelectedIndex = cmbLocalNetAddr.Items.Count - 1;
             btnSendData.IsEnabled = false;
             //***************************************************************
             //控件使能初始化
@@ -164,7 +159,7 @@ namespace WpfSerial
             //***************************************************************
             //gridSplitter1.Visibility = Visibility.Collapsed;
             //tabOthers.Visibility = Visibility.Collapsed;
-            DynamicDataDisplayInit();
+            //DynamicDataDisplayInit();
         }
         /// <summary>
         /// 显示用户消息
@@ -305,7 +300,7 @@ namespace WpfSerial
         /// <param name="e"></param>
         private void BtnOpenSerialPortClick(object sender, RoutedEventArgs e)
         {
-            if(!SerialPort1.IsOpen)
+            if (!SerialPort1.IsOpen)
             {
                 SerialPort1.Open(cmbSerialPortName.SelectionBoxItem.ToString(),
                              cmbBaudRate.SelectionBoxItem.ToString(),
@@ -405,8 +400,8 @@ namespace WpfSerial
         private void TxtSendCyclePreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
 
-                Regex re = new Regex(@"[0-9]");
-                e.Handled = !re.IsMatch(e.Text);
+            Regex re = new Regex(@"[0-9]");
+            e.Handled = !re.IsMatch(e.Text);
         }
         /// <summary>
         /// Hex发送更改
@@ -453,7 +448,7 @@ namespace WpfSerial
         }
         private void MnuItmHideParameterChecked(object sender, RoutedEventArgs e)
         {
-            if((bool)mnuItmHideParameter.IsChecked)
+            if ((bool)mnuItmHideParameter.IsChecked)
             {
                 this.docPnlParameter.Visibility = Visibility.Collapsed;
             }
@@ -464,17 +459,17 @@ namespace WpfSerial
         }
         private void MnuItmOthersClick(object sender, RoutedEventArgs e)
         {
-            if((bool)mnuItmOthers.IsChecked)
+            if ((bool)mnuItmOthers.IsChecked)
             {
                 tabOthers.Visibility = Visibility.Visible;
-                gridSplitter1.Visibility = Visibility.Visible;
-                cDefOthers.Width = default;
+                //gridSplitter1.Visibility = Visibility.Visible;
+                //cDefOthers.Width = default;
             }
             else
             {
                 tabOthers.Visibility = Visibility.Collapsed;
-                gridSplitter1.Visibility = Visibility.Collapsed;
-                cDefOthers.Width = GridLength.Auto;
+                //gridSplitter1.Visibility = Visibility.Collapsed;
+                //cDefOthers.Width = GridLength.Auto;
             }
         }
         /// <summary>
@@ -486,7 +481,7 @@ namespace WpfSerial
         {
             CheckBox chk1 = sender as CheckBox;
             int time = Convert.ToInt32(txtSendCycle.Text);//异常处理未添加
-            if((bool)chk1.IsChecked)
+            if ((bool)chk1.IsChecked)
             {
                 TimerSend.Tick += new EventHandler(TimerCycleSend);
                 TimerSend.Interval = new TimeSpan(0, 0, 0, 0, time);
@@ -503,7 +498,7 @@ namespace WpfSerial
         {
             string path = UsrTextOperate.OpenDialog();
             UsrMethod.UsrTextOperate usrFile = new UsrTextOperate(path, "", Encoding.Default);
-            
+
             usrFile.Clear();
             UsrMethod.UsrTextOperate usrFile2 = new UsrTextOperate(path, "", Encoding.Default);
             txtSendData.Text = usrFile2.ReadLine(seek: "all");
@@ -520,11 +515,14 @@ namespace WpfSerial
 
         private void BtnDebug1Click(object sender, RoutedEventArgs e)
         {
-            
         }
         private void BtnDebug2Click(object sender, RoutedEventArgs e)
         {
-            
+        }
+        public class SampleData
+        {
+            public double X { get; set; }
+            public double Value { get; set; }
         }
         private void BtnDebug3Click(object sender, RoutedEventArgs e)
         {
@@ -537,6 +535,5 @@ namespace WpfSerial
             txtDebug.Clear();
         }
         #endregion
-
     }
 }

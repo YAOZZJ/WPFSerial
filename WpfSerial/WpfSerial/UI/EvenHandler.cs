@@ -98,96 +98,6 @@ namespace WpfSerial
             }
         }
         #endregion
-        #region 普通方法
-        /// <summary>
-        /// 程序加载时执行,combobox列表初始化
-        /// </summary>
-        private void Startup()
-        {
-            foreach (string str1 in SerialClass.GetSerialPropertyValue(SerialClass.SerialProperty.PortName))
-            {
-                cmbSerialPortName.Items.Add(str1);
-            }
-            foreach (string str1 in SerialClass.GetSerialPropertyValue(SerialClass.SerialProperty.BaudRate))
-            {
-                cmbBaudRate.Items.Add(str1);
-            }
-            foreach (string str1 in SerialClass.GetSerialPropertyValue(SerialClass.SerialProperty.DataBits))
-            {
-                cmbDataBits.Items.Add(str1);
-            }
-            foreach (string str1 in SerialClass.GetSerialPropertyValue(SerialClass.SerialProperty.StopBits))
-            {
-                cmbStopbits.Items.Add(str1);
-            }
-            foreach (string str1 in SerialClass.GetSerialPropertyValue(SerialClass.SerialProperty.Parity))
-            {
-                cmbParity.Items.Add(str1);
-            }
-            foreach (string str1 in UsrNetworkControl.GetLocalIP())
-            {
-                //cmbLocalNetAddr.Items.Clear();
-                cmbLocalNetAddr.Items.Add(str1);
-            }
-            //***************************************************************
-            //默认选项
-            cmbSerialPortName.SelectedIndex = 0;
-            cmbBaudRate.SelectedIndex = 1;
-            cmbDataBits.SelectedIndex = 0;
-            cmbStopbits.SelectedIndex = 1;
-            cmbParity.SelectedIndex = 0;
-            cmbCommMethod.SelectedIndex = 0;
-            cmbLocalNetAddr.SelectedIndex = cmbLocalNetAddr.Items.Count - 1;
-            btnSendData.IsEnabled = false;
-            //***************************************************************
-            //控件使能初始化
-            //btnSendData.IsEnabled = false;
-            //***************************************************************
-            //数据绑定
-            this.statItmSendCounter.DataContext = SendDataCounterBing;
-            this.statItmRecvCounter.DataContext = RecvDataCounterBing;
-            //***************************************************************
-            //注册事件
-            SerialPort1.ComOpenEvent += SerialPort1_ComOpenEvent;
-            SerialPort1.ComCloseEvent += SerialPort1_ComCloseEvent;
-            //***************************************************************
-            //时间
-            DispatcherTimer Timer_1S = new DispatcherTimer();
-            Timer_1S.Tick += new EventHandler(TimeCycle_1S);
-            Timer_1S.Interval = new TimeSpan(0, 0, 0, 1);
-            Timer_1S.Start();
-            //***************************************************************
-            //gridSplitter1.Visibility = Visibility.Collapsed;
-            //tabOthers.Visibility = Visibility.Collapsed;
-            //DynamicDataDisplayInit();
-        }
-        /// <summary>
-        /// 显示用户消息
-        /// </summary>
-        /// <param name="message"></param>
-        private void Message(string message)
-        {
-            StatItmMessage.Content = message;
-        }
-        /// <summary>
-        /// 时间刷新
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TimeCycle_1S(object sender, EventArgs e)
-        {
-            txtblkCurrentTime.Text = DateTime.Now.ToLocalTime().ToString();
-        }
-        /// <summary>
-        /// 定时发送
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TimerCycleSend(object sender, EventArgs e)
-        {
-            SendData();
-        }
-        #endregion
         #region UI事件
         /// <summary>
         /// 退出
@@ -462,14 +372,16 @@ namespace WpfSerial
             if ((bool)mnuItmOthers.IsChecked)
             {
                 tabOthers.Visibility = Visibility.Visible;
-                //gridSplitter1.Visibility = Visibility.Visible;
-                //cDefOthers.Width = default;
+                gridSplitter1.Visibility = Visibility.Visible;
+                RowDefOthers.Height = GridLength.Auto;
+                RowDefRecv.Height = default;
             }
             else
             {
                 tabOthers.Visibility = Visibility.Collapsed;
-                //gridSplitter1.Visibility = Visibility.Collapsed;
-                //cDefOthers.Width = GridLength.Auto;
+                gridSplitter1.Visibility = Visibility.Collapsed;
+                RowDefRecv.Height = default;
+                RowDefRecv.Height = GridLength.Auto;
             }
         }
         /// <summary>
@@ -513,27 +425,7 @@ namespace WpfSerial
             usrFile.Write(txtRecvData.Text);
         }
 
-        private void BtnDebug1Click(object sender, RoutedEventArgs e)
-        {
-        }
-        private void BtnDebug2Click(object sender, RoutedEventArgs e)
-        {
-        }
-        public class SampleData
-        {
-            public double X { get; set; }
-            public double Value { get; set; }
-        }
-        private void BtnDebug3Click(object sender, RoutedEventArgs e)
-        {
-        }
-        private void BtnDebug4Click(object sender, RoutedEventArgs e)
-        {
-        }
-        private void BtnDebug5Click(object sender, RoutedEventArgs e)
-        {
-            txtDebug.Clear();
-        }
-        #endregion
+       
     }
+    #endregion
 }

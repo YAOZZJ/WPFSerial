@@ -4,7 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:WpfSerial"
+        xmlns:usr="clr-namespace:UsrMethod"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
         ShowTitleBar="False"
@@ -16,6 +19,9 @@
         </Style>
     </controls:MetroWindow.Resources>
     <!--WindowStyle="None"不显示标题栏,用metro UI后,直接用showtitlebar-->
+    <controls:MetroWindow.DataContext>
+        <local:MainDatacontent/>
+    </controls:MetroWindow.DataContext>
     <DockPanel>
         <!--菜单栏-->
         <Grid DockPanel.Dock="Top">
@@ -87,7 +93,7 @@
                         </MenuItem>
                         <MenuItem Header="_Others"
                                   IsCheckable="True"
-                                  IsChecked="False"
+                                  IsChecked="True"
                                   Name="mnuItmOthers"
                                   Click="MnuItmOthersClick"
                                   >
@@ -135,7 +141,10 @@
                            ></StatusBarItem>
             <Separator />
             <StatusBarItem Foreground="Black" Name="StatItmMessage">
-
+            </StatusBarItem>
+            <Separator />
+            <StatusBarItem>
+                <controls:MetroProgressBar Value="100"  Width="200" Visibility="Collapsed"></controls:MetroProgressBar>
             </StatusBarItem>
         </StatusBar>
         <!--发送区-->
@@ -367,20 +376,30 @@
         </DockPanel>
         <!--数据接收区-->
         <Grid >
-            <TabControl Name="tabOthers"
-                        SelectedIndex="1">
-                <TabItem Header="Data">
-                    <TextBox  Name="txtRecvData" 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" Name="RowDefOthers"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" Name="RowDefRecv"/>
+            </Grid.RowDefinitions>
+            <TextBox  Name="txtRecvData" Grid.Row="2"
                       IsReadOnly="True"
                       AcceptsReturn="True" 
                       TextWrapping = "Wrap" 
                       HorizontalScrollBarVisibility="Auto" 
                       VerticalScrollBarVisibility="Auto">
-                    </TextBox>
-                </TabItem>
+            </TextBox>
+            <GridSplitter Grid.Row="1" Grid.Column="0"
+                          Name="gridSplitter1"
+                          HorizontalAlignment="Stretch" 
+                          Height="5"/>
+            <TabControl Grid.Row="0"
+                        Name="tabOthers">
                 <TabItem Header="LineGraph" >
+                    <oxy:PlotView   Name="oxyLineGraph" 
+                                  Model="{Binding LineGraphModel}">
+                    </oxy:PlotView>
                 </TabItem>
-                <TabItem Header="Bar Chart" >
+                <TabItem Header="BarChart" >
                 </TabItem>
                 </TabControl>
             </Grid>

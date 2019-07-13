@@ -372,16 +372,14 @@ namespace WpfSerial
             if ((bool)mnuItmOthers.IsChecked)
             {
                 tabOthers.Visibility = Visibility.Visible;
-                gridSplitter1.Visibility = Visibility.Visible;
-                RowDefOthers.Height = GridLength.Auto;
-                RowDefRecv.Height = default;
+                //gridSplitter1.Visibility = Visibility.Visible;
+                //cDefOthers.Width = default;
             }
             else
             {
                 tabOthers.Visibility = Visibility.Collapsed;
-                gridSplitter1.Visibility = Visibility.Collapsed;
-                RowDefRecv.Height = default;
-                RowDefRecv.Height = GridLength.Auto;
+                //gridSplitter1.Visibility = Visibility.Collapsed;
+                //cDefOthers.Width = GridLength.Auto;
             }
         }
         /// <summary>
@@ -425,7 +423,7 @@ namespace WpfSerial
             usrFile.Write(txtRecvData.Text);
         }
 
-       
+        
+        #endregion
     }
-    #endregion
 }

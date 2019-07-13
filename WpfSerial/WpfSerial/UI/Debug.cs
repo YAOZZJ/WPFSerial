@@ -1,20 +1,20 @@
 ﻿using MahApps.Metro.Controls;
-using OxyPlot;
-using OxyPlot.Series;
 using System;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Threading;
+using UsrCommunication;
+using UsrMethod;
 
 namespace WpfSerial
 {
-    
     public partial class MainWindow : MetroWindow
     {
-        private void DebugStartUp()
-        {
-        }
         private void BtnDebug1Click(object sender, RoutedEventArgs e)
         {
-            //oxyLineGraph.Model.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
         }
         private void BtnDebug2Click(object sender, RoutedEventArgs e)
         {

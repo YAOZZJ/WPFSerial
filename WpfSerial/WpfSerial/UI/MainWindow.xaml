@@ -97,7 +97,7 @@
                                   Name="mnuItmOthers"
                                   Click="MnuItmOthersClick"
                                   >
-                            
+
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Header="_Edit"></MenuItem>
@@ -155,45 +155,45 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="3">
-                        <Button Margin="10,0,0,3"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="3">
+                    <Button Margin="10,0,0,3"
                         Click="BtnClearRecvDataClick"
                         >_Clear Recv</Button>
-                        <!--<CheckBox VerticalAlignment="Center">Save</CheckBox>-->
-                        <Button Margin="10,0,0,3"
+                    <!--<CheckBox VerticalAlignment="Center">Save</CheckBox>-->
+                    <Button Margin="10,0,0,3"
                         Click="BtnClearSendDataClick"
                         >_Clear Send</Button>
-                    </StackPanel>
-                    <Button Name="btnOpenSerialPort" Grid.Row="2" Grid.Column="0"
+                </StackPanel>
+                <Button Name="btnOpenSerialPort" Grid.Row="2" Grid.Column="0"
                                         Click="BtnOpenSerialPortClick"
                                         Margin="10,0,0,0"
                                 >
-                        Open
-                    </Button>
-                    <Button Name="btnRefreshSerialPort" Grid.Row="2" Grid.Column="1"
+                    Open
+                </Button>
+                <Button Name="btnRefreshSerialPort" Grid.Row="2" Grid.Column="1"
                                         Click="BtnRefreshSerialPortClick"
                                         Margin="10,0,0,0">
-                        Refresh
-                    </Button>
-                    <Button Name="btnSendData" Grid.Row="2" Grid.Column="2"
+                    Refresh
+                </Button>
+                <Button Name="btnSendData" Grid.Row="2" Grid.Column="2"
                                     Click="BtnSendDataClick"
                                     Margin="10,0,0,0" 
                                     Style="{DynamicResource AccentedSquareButtonStyle}" 
                                     Content="   Send   ">
 
-                    </Button>
-                </Grid>
-                <TextBox Name="txtSendData" Grid.Column="1"
+                </Button>
+            </Grid>
+            <TextBox Name="txtSendData" Grid.Column="1"
                              AcceptsReturn="True" 
                       TextWrapping = "Wrap" 
                       HorizontalScrollBarVisibility="Auto" 
@@ -201,7 +201,7 @@
                       input:InputMethod.IsInputMethodEnabled="false"
                              PreviewTextInput="TxtSendData_PreviewTextInput"
                              >
-                </TextBox>
+            </TextBox>
             <Grid Grid.Column="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -396,12 +396,16 @@
                         Name="tabOthers">
                 <TabItem Header="LineGraph" >
                     <oxy:PlotView   Name="oxyLineGraph" 
-                                  Model="{Binding LineGraphModel}">
+                                  Model="{Binding ModelLineGraph}">
                     </oxy:PlotView>
                 </TabItem>
-                <TabItem Header="BarChart" >
+                <TabItem Header="ColumnChart" >
+                    <oxy:PlotView
+                        Model="{Binding ModelColumnChartGraph}">
+
+                    </oxy:PlotView>
                 </TabItem>
-                </TabControl>
-            </Grid>
+            </TabControl>
+        </Grid>
     </DockPanel>
 </controls:MetroWindow>

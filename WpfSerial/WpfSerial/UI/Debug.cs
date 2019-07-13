@@ -15,13 +15,8 @@ namespace WpfSerial
 {
     public partial class MainWindow : MetroWindow
     {
-        DataBinding dataBinding = new DataBinding();
         private void DebugStartup()
         {
-            CompositionTarget.Rendering += CompositionTarget_Rendering;
-            oxyLineGraph.DataContext = dataBinding;
-
-
         }
         private void BtnDebug1Click(object sender, RoutedEventArgs e)
         {
@@ -38,25 +33,6 @@ namespace WpfSerial
         private void BtnDebug5Click(object sender, RoutedEventArgs e)
         {
             txtDebug.Clear();
-        }
-        private double lastUpdateTime;
-        void CompositionTarget_Rendering(object sender, EventArgs e)
-        {
-            double seconds = ((RenderingEventArgs)e).RenderingTime.TotalSeconds;
-            if (seconds > this.lastUpdateTime + 0.02)
-            {
-                dataBinding.PlotModel = CreatePlot();
-                lastUpdateTime = seconds;
-                //txtDebug.Text = seconds.ToString();
-            }
-        }
-        private double x;
-        private PlotModel CreatePlot()
-        {
-            var pm = new PlotModel { Title = "Plot updated: " + DateTime.Now };
-            pm.Series.Add(new FunctionSeries(Math.Sin, x, x + 4, 0.01));
-            x += 0.1;
-            return pm;
         }
     }
 }

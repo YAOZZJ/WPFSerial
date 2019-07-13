@@ -25,10 +25,16 @@ namespace WpfSerial
         {
             // Create the plot model
             var tmp = new PlotModel { Title = "Simple example", Subtitle = "using OxyPlot" };
+            LinearAxis linearAxisBottom = new LinearAxis()
+            {
+                Position = AxisPosition.Bottom,
+                Minimum = 0,
+                Maximum = 50
+            };
             //===================================================================================
             //sin(x)/x,使用描点法
             //Color = OxyColors.Goldenrod,有MarkerType就不能有颜色
-            var lineSeriesSinX = new LineSeries { Title = "Sin(x)/x", MarkerType = MarkerType.Circle };
+            var lineSeriesSinX = new LineSeries { Title = "Sin(x)/x", MarkerType = MarkerType.Circle};
             int N = 100;
             double[] x = new double[N];
             double[] y = new double[N];
@@ -45,29 +51,35 @@ namespace WpfSerial
 
             //===================================================================================
             //添加到ModelLineGraph
+            tmp.Axes.Add(linearAxisBottom);
             tmp.Series.Add(lineSeriesSinX);
             tmp.Series.Add(new FunctionSeries(Math.Sin, 0, 100, 0.1, "sin(x)"));//sin(x),使用函数
-            tmp.Series.Add(lineSeriesRadom);
+            //tmp.Series.Add(lineSeriesRadom);
             //===================================================================================
             //应用
             this.ModelLineGraph = tmp;
             //===================================================================================
-            var rd = new Random();
-            Task.Factory.StartNew(() =>
-            {
-                double x1 = 0;
-                double y1 = 0;
-                while (lineSeriesRadom.Points.Count < 400)
-                {
-                    //var x1 = rd.NextDouble() * 1000 % 10;
-                    //var y1 = rd.NextDouble() * 50 % 9;
-                    y1 = Math.Cos(x1);
-                    x1 += 0.25;
-                    lineSeriesRadom.Points.Add(new DataPoint(x1, y1));
-                    this.ModelLineGraph.InvalidatePlot(true);
-                    Thread.Sleep(50);
-                }
-            });
+            //var rd = new Random();
+            //Task.Factory.StartNew(() =>
+            //{
+            //    double x1 = 0;
+            //    double y1 = 0;
+            //    while (lineSeriesRadom.Points.Count < 400)
+            //    {
+            //        //var x1 = rd.NextDouble() * 1000 % 10;
+            //        //var y1 = rd.NextDouble() * 50 % 9;
+            //        y1 = Math.Cos(x1);
+            //        x1 += 0.25;
+            //        lineSeriesRadom.Points.Add(new DataPoint(x1, y1));
+            //        if(x1>50)
+            //        {
+            //            linearAxisBottom.Minimum = x1 - 50;
+            //            linearAxisBottom.Maximum = x1;
+            //        }
+            //        ModelLineGraph.InvalidatePlot(true);
+            //        Thread.Sleep(50);
+            //    }
+            //});
         }
         private void OxyPlotViewColumnChartGraph()
         {

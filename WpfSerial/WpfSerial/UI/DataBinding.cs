@@ -9,17 +9,17 @@ namespace WpfSerial
         public event PropertyChangedEventHandler PropertyChanged;//必须实现
         
         //可以通过该方法触发事件,不知道跟PropertyChanged?.Invoke哪个好
-        protected void RaisePropertyChanged(string property)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(property));
-            }
-        }
+        //protected void RaisePropertyChanged(string property)
+        //{
+        //    var handler = PropertyChanged;
+        //    if (handler != null)
+        //    {
+        //        handler(this, new PropertyChangedEventArgs(property));
+        //    }
+        //}
         private int intvalue;//私有
         private String strvalue;//私有
-        private PlotModel plotModel;
+        //private PlotModel plotModel;
         public int IntValue
         {
             get { return intvalue; }//获取值时将私有字段传出；
@@ -39,17 +39,18 @@ namespace WpfSerial
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("StrValue"));
             }
         }
-        public PlotModel PlotModel
-        {
-            get
-            {
-                return plotModel;
-            }
-            set
-            {
-                plotModel = value;
-                RaisePropertyChanged("PlotModel");
-            }
-        }
+        //OxyPlot更新用
+        //public PlotModel PlotModel
+        //{
+        //    get
+        //    {
+        //        return plotModel;
+        //    }
+        //    set
+        //    {
+        //        plotModel = value;
+        //        RaisePropertyChanged("PlotModel");
+        //    }
+        //}
     }
 }

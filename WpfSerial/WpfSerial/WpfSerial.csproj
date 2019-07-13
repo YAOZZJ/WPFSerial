@@ -114,6 +114,7 @@
     <Compile Include="UsrClass\UsrFileOperate.cs" />
     <Compile Include="UsrClass\UsrNetworkControl.cs" />
     <Compile Include="UsrClass\UsrRegex.cs" />
+    <Compile Include="UsrClass\UsrTimer.cs" />
     <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

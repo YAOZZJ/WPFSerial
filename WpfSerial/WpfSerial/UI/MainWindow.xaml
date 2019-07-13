@@ -26,7 +26,7 @@
         <!--菜单栏-->
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
@@ -396,7 +396,7 @@
                         Name="tabOthers">
                 <TabItem Header="LineGraph" >
                     <oxy:PlotView   Name="oxyLineGraph" 
-                                  Model="{Binding PlotModel}">
+                                  Model="{Binding ModelLineGraph}">
                     </oxy:PlotView>
                 </TabItem>
                 <TabItem Header="ColumnChart" >

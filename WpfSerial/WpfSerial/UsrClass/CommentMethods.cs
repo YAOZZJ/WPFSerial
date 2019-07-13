@@ -70,6 +70,7 @@ namespace WpfSerial
             //gridSplitter1.Visibility = Visibility.Collapsed;
             //tabOthers.Visibility = Visibility.Collapsed;
             //DynamicDataDisplayInit();
+            DebugStartup();
         }
         /// <summary>
         /// 显示用户消息

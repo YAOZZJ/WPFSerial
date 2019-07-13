@@ -396,7 +396,7 @@
                         Name="tabOthers">
                 <TabItem Header="LineGraph" >
                     <oxy:PlotView   Name="oxyLineGraph" 
-                                  Model="{Binding ModelLineGraph}">
+                                  Model="{Binding PlotModel}">
                     </oxy:PlotView>
                 </TabItem>
                 <TabItem Header="ColumnChart" >

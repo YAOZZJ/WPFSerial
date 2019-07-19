@@ -405,6 +405,32 @@
 
                     </oxy:PlotView>
                 </TabItem>
+                <TabItem Header="ListView">
+                    <ListView Name="lstVUsr" ItemsSource="{Binding Items}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="颜色">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Rectangle Fill="{Binding Color}" Width="16" Height="16" Margin="0,2,5,2" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="名称" DisplayMemberBinding="{Binding Label}"/>
+                                <GridViewColumn Header="Value1" DisplayMemberBinding="{Binding Value1}"/>
+                                <GridViewColumn Header="Value2" DisplayMemberBinding="{Binding Value2}"/>
+                                <GridViewColumn Header="Value3" DisplayMemberBinding="{Binding Value2}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+                <TabItem Header="DataGrid">
+                    <DataGrid ItemsSource="{Binding Items}"
+                              GridLinesVisibility="All">
+                        <DataGrid.Columns
+                            ></DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
             </TabControl>
         </Grid>
     </DockPanel>

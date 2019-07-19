@@ -2,9 +2,11 @@
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace WpfSerial
 {
@@ -81,20 +83,20 @@ namespace WpfSerial
             //    }
             //});
         }
-        private void OxyPlotViewColumnChartGraph()
+        public void OxyPlotViewColumnChartGraph()
         {
             // Create some data
-            //Items = new Collection<Item>
-            //                {
-            //                    new Item {Label = "Apples", Value1 = 37, Value2 = 12, Value3 = 19},
-            //                    new Item {Label = "Pears", Value1 = 7, Value2 = 21, Value3 = 9},
-            //                    new Item {Label = "Bananas", Value1 = 23, Value2 = 2, Value3 = 29}
-            //                };
-            Items = new Collection<Item>();
-            Items.Add(new Item { Label = "Apples", Value1 = 37, Value2 = 12, Value3 = 19 });
-            Items.Add(new Item { Label = "Pears", Value1 = 7, Value2 = 21, Value3 = 9 });
-            Items.Add(new Item { Label = "Bananas", Value1 = 23, Value2 = 2, Value3 = 29 });
-            
+            Items = new Collection<Item>
+                            {
+                                new Item {Label = "Omron", Value1 = 37, Value2 = 12, Value3 = 19, Color = new SolidColorBrush(Colors.Red)},
+                                new Item {Label = "Simens", Value1 = 7, Value2 = 21, Value3 = 9, Color = new SolidColorBrush(Colors.Blue)},
+                                new Item {Label = "Keyence", Value1 = 23, Value2 = 2, Value3 = 29, Color = new SolidColorBrush(Colors.Black)}
+                            };
+            //Items = new Collection<Item>();
+            //Items.Add(new Item { Label = "Omron", Value1 = 37, Value2 = 12, Value3 = 19 });
+            //Items.Add(new Item { Label = "Simens", Value1 = 7, Value2 = 21, Value3 = 9 });
+            //Items.Add(new Item { Label = "Keyence", Value1 = 23, Value2 = 2, Value3 = 29 });
+
 
             // Create the plot model
             var tmp = new PlotModel { Title = "Column series", LegendPlacement = LegendPlacement.Outside, LegendPosition = LegendPosition.RightTop, LegendOrientation = LegendOrientation.Vertical };
@@ -111,7 +113,7 @@ namespace WpfSerial
             this.ModelColumnChartGraph = tmp;
         }
 
-        public Collection<Item> Items { get; set; }
+        public static Collection<Item> Items { get; set; }
 
         public PlotModel Model1 { get; set; }
     }
@@ -121,6 +123,8 @@ namespace WpfSerial
         public double Value1 { get; set; }
         public double Value2 { get; set; }
         public double Value3 { get; set; }
+
+        public SolidColorBrush Color { get; set; }
     }
     #endregion
 }

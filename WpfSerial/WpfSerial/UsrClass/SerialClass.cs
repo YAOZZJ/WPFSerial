@@ -40,7 +40,7 @@ namespace UsrCommunication
         private object LockReceiving = new object();
         public int sendBytesCount = 0;
         public int receiveBytesCount = 0;
-        private bool isOpen;
+        //private bool isOpen;
 
         public bool IsOpen => _serialPort.IsOpen;
 

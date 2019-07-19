@@ -2,6 +2,7 @@
 using OxyPlot;
 using OxyPlot.Series;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -20,6 +21,7 @@ namespace WpfSerial
         }
         private void BtnDebug1Click(object sender, RoutedEventArgs e)
         {
+            txtDebug.Text = (MainDatacontent.Items[0].Value1++).ToString();
         }
         private void BtnDebug2Click(object sender, RoutedEventArgs e)
         {

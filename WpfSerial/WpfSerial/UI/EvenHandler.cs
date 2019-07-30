@@ -1,9 +1,12 @@
 ﻿using MahApps.Metro.Controls;
 using System;
+using System.Data;
+using System.Data.SQLite;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using UsrCommunication;
@@ -356,32 +359,6 @@ namespace WpfSerial
             //this.Topmost = (bool)chk1.IsChecked;
             this.Topmost = (bool)mnuItmTopDisplay.IsChecked;
         }
-        private void MnuItmHideParameterChecked(object sender, RoutedEventArgs e)
-        {
-            if ((bool)mnuItmHideParameter.IsChecked)
-            {
-                this.docPnlParameter.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                this.docPnlParameter.Visibility = Visibility.Visible;
-            }
-        }
-        private void MnuItmOthersClick(object sender, RoutedEventArgs e)
-        {
-            if ((bool)mnuItmOthers.IsChecked)
-            {
-                tabOthers.Visibility = Visibility.Visible;
-                //gridSplitter1.Visibility = Visibility.Visible;
-                //cDefOthers.Width = default;
-            }
-            else
-            {
-                tabOthers.Visibility = Visibility.Collapsed;
-                //gridSplitter1.Visibility = Visibility.Collapsed;
-                //cDefOthers.Width = GridLength.Auto;
-            }
-        }
         /// <summary>
         /// 定时发送选择
         /// </summary>
@@ -422,8 +399,124 @@ namespace WpfSerial
             usrFile = new UsrTextOperate(path, "", Encoding.Default);
             usrFile.Write(txtRecvData.Text);
         }
+        private void MnuItmOpenDatabase(object sender, RoutedEventArgs e)
+        {
+            SQLiteConfig.DataSource = UsrTextOperate.OpenDialog();
+            Message(SQLiteConfig.DataSource);
+            try
+            {
+                if (SQLiteConfig.DataSource.Length > 0)
+                {
+                    using (SQLiteConnection conn = new SQLiteConnection(SQLiteConfig.DataSource))
+                    {
+                        using (SQLiteCommand cmd = new SQLiteCommand())
+                        {
+                            conn.Open();
+                            cmd.Connection = conn;
+                            SQLiteHelper sh = new SQLiteHelper(cmd);
+                            DataTable dt = sh.ShowDatabase();
+                            dataGridSQLite.ItemsSource = dt.DefaultView;
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("打开错误");
+            }
+        }
+        private void MnuItmGetTableStatus(object sender, RoutedEventArgs e)
+        {
+            using (SQLiteConnection conn = new SQLiteConnection(SQLiteConfig.DataSource))
+            {
+                using (SQLiteCommand cmd = new SQLiteCommand())
+                {
+                    conn.Open();
+                    cmd.Connection = conn;
+                    SQLiteHelper sh = new SQLiteHelper(cmd);
+                    DataTable dt = sh.GetTableStatus();
+                    dataGridSQLite.ItemsSource = dt.DefaultView;
+                    conn.Close();
+                }
+            }
+        }
+        private void MnuItmGetTableList(object sender, RoutedEventArgs e)
+        {
+            using (SQLiteConnection conn = new SQLiteConnection(SQLiteConfig.DataSource))
+            {
+                using (SQLiteCommand cmd = new SQLiteCommand())
+                {
+                    conn.Open();
+                    cmd.Connection = conn;
+                    SQLiteHelper sh = new SQLiteHelper(cmd);
+                    DataTable dt = sh.GetTableList();
+                    dataGridSQLite.ItemsSource = dt.DefaultView;
+                    conn.Close();
+                }
+            }
+        }
+        private void MnuItmGetColumnStatus(object sender, RoutedEventArgs e)
+        {
+            using (SQLiteConnection conn = new SQLiteConnection(SQLiteConfig.DataSource))
+            {
+                using (SQLiteCommand cmd = new SQLiteCommand())
+                {
+                    conn.Open();
+                    cmd.Connection = conn;
+                    SQLiteHelper sh = new SQLiteHelper(cmd);
+                    DataTable dt = sh.GetColumnStatus("Company");
+                    dataGridSQLite.ItemsSource = dt.DefaultView;
+                    conn.Close();
+                }
+            }
+        }
+        private void MnuItmShowDatabase(object sender, RoutedEventArgs e)
+        {
+            using (SQLiteConnection conn = new SQLiteConnection(SQLiteConfig.DataSource))
+            {
+                using (SQLiteCommand cmd = new SQLiteCommand())
+                {
+                    conn.Open();
+                    cmd.Connection = conn;
+                    SQLiteHelper sh = new SQLiteHelper(cmd);
+                    DataTable dt = sh.ShowDatabase();
+                    dataGridSQLite.ItemsSource = dt.DefaultView;
+                    conn.Close();
+                }
+            }
+        }
+        private void TxtSQLiteExecuteOnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                //txtSQLiteExecute.MoveFocus(new TraversalRequest(FocusNavigationDirection.Previous));
+                TextBox txt1 = sender as TextBox;
+                using (SQLiteConnection conn = new SQLiteConnection(SQLiteConfig.DataSource))
+                {
+                    using (SQLiteCommand cmd = new SQLiteCommand())
+                    {
+                        conn.Open();
+                        cmd.Connection = conn;
+                        SQLiteHelper sh = new SQLiteHelper(cmd);
+                        try
+                        {
+                            DataTable dt = sh.Select(txtSQLiteExecute.Text);
+                            dataGridSQLite.ItemsSource = dt.DefaultView;
+                        }
+                        catch (Exception ex)
+                        {
+                            DataTable dt = new DataTable();
+                            dt.Columns.Add("Error");
+                            dt.Rows.Add(ex.ToString());
+                            dataGridSQLite.ItemsSource = dt.DefaultView;
+                            conn.Close();
+                        }
+                    }
+                }
 
-        
+            }
+        }
         #endregion
     }
 }

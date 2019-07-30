@@ -19,7 +19,15 @@ namespace System.Data.SQLite
         Decimal,
         BLOB
     }
-
+    class SQLiteConfig
+    {
+        private static string dataSource = null;
+        public static string DataSource
+        {
+            get { return ("data source=" + dataSource); }
+            set { dataSource = value; }
+        }
+    }
     public class SQLiteHelper
     {
         SQLiteCommand cmd = null;

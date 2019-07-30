@@ -70,6 +70,7 @@ namespace WpfSerial
             //gridSplitter1.Visibility = Visibility.Collapsed;
             //tabOthers.Visibility = Visibility.Collapsed;
             //DynamicDataDisplayInit();
+            //docPnlParameter.Visibility = System.Windows.Visibility.Collapsed;
             DebugStartup();
         }
         /// <summary>

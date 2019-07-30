@@ -10,6 +10,8 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         mc:Ignorable="d"
+        NonActiveGlowBrush="#CDFF0000"
+        ShowIconOnTitleBar="True"
         ShowTitleBar="False"
         Title="数据调试器">
     <controls:MetroWindow.Resources>
@@ -22,9 +24,42 @@
     <controls:MetroWindow.DataContext>
         <local:MainDatacontent/>
     </controls:MetroWindow.DataContext>
+    <controls:MetroWindow.LeftWindowCommands>
+        <controls:WindowCommands>
+            <Button ToolTip="MahApps.Metro on GitHub">
+            </Button>
+        </controls:WindowCommands>
+    </controls:MetroWindow.LeftWindowCommands>
+
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands ShowLastSeparator="False">
+            <Button
+                    Content="Flyouts"
+                    ToolTip="Flyouts demo window" />
+            <Button 
+                    Content="IconPacks"
+                    ToolTip="All MahApp icons" />
+            <Button 
+                    Content="VS"
+                    ToolTip="Visual Studio style demo" />
+            <Button 
+                    Content="Clean"
+                    ToolTip="Clean window style demo" />
+            <Button 
+                    Content="Interop"
+                    ToolTip="The interop demo" />
+            <Button
+                    Content="Navigation"
+                    ToolTip="Window navigation demo" />
+            <ToggleButton Content="Confirm quit"
+                          IsChecked="{Binding QuitConfirmationEnabled}"
+                          ToolTip="Enable quit confirmation dialog on exit" />
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
     <DockPanel>
         <!--菜单栏-->
-        <Grid DockPanel.Dock="Top">
+        <Grid x:Name="Menu"
+            DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -84,20 +119,32 @@
                             Unchecked="MnuItmTopDisplayChecked"
                             >
                         </MenuItem>
-                        <MenuItem Header="_Hide" 
+                        <MenuItem Header="_Setting" 
                             Name="mnuItmHideParameter"
                             IsCheckable="True"
-                            IsChecked="False"
-                            Click="MnuItmHideParameterChecked"
+                            IsChecked="True"
+                            
                             >
                         </MenuItem>
-                        <MenuItem Header="_Others"
+                        <MenuItem Header="_MainArea"
                                   IsCheckable="True"
                                   IsChecked="True"
                                   Name="mnuItmOthers"
-                                  Click="MnuItmOthersClick"
                                   >
-
+                        </MenuItem>
+                        <MenuItem
+                            Header="_SendArea"
+                            IsCheckable="True"
+                            IsChecked="False"
+                            Name="mnuItmSendArea"
+                            >
+                        </MenuItem>
+                        <MenuItem
+                            Header="RecvArea"
+                            IsCheckable="True"
+                            IsChecked="True"
+                            Name="mnuItmRecvArea"
+                            >
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Header="_Edit"></MenuItem>
@@ -148,7 +195,18 @@
             </StatusBarItem>
         </StatusBar>
         <!--发送区-->
-        <Grid DockPanel.Dock="Bottom">
+        <Grid x:Name="gridSendArea"
+            DockPanel.Dock="Bottom">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=mnuItmSendArea,Path=IsChecked}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -202,54 +260,21 @@
                              PreviewTextInput="TxtSendData_PreviewTextInput"
                              >
             </TextBox>
-            <Grid Grid.Column="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Button Grid.Column="0"
-                        Name="btnDebug1"
-                        Click="BtnDebug1Click"
-                        >btn1</Button>
-                <Button Grid.Column="1"
-                        Name="btnDebug2"
-                        Click="BtnDebug2Click"
-                        >btn2</Button>
-                <Button Grid.Column="2"
-                        Name="btnDebug3"
-                        Click="BtnDebug3Click"
-                        >btn3</Button>
-                <Button Grid.Column="3"
-                        Name="btnDebug4"
-                        Click="BtnDebug4Click"
-                        >btn4</Button>
-                <Button Grid.Column="4"
-                        Name="btnDebug5"
-                        Click="BtnDebug5Click"
-                        >btn5</Button>
-                <TextBox
-                    Name="txtDebug"
-                    Grid.Row="1" Grid.ColumnSpan="5"
-                    AcceptsReturn="True" 
-                    IsReadOnly="False"
-                      TextWrapping = "Wrap" 
-                      HorizontalScrollBarVisibility="Auto" 
-                      VerticalScrollBarVisibility="Auto" 
-                    MaxHeight="200"
-                    ></TextBox>
-            </Grid>
         </Grid>
         <!--参数区-->
         <DockPanel DockPanel.Dock="Left"
                    Name="docPnlParameter"
                    >
+            <DockPanel.Style>
+                <Style TargetType="DockPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=mnuItmHideParameter,Path=IsChecked}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
             <GroupBox Header="Port Setting" DockPanel.Dock="Top">
                 <StackPanel>
                     <ComboBox Name="cmbCommMethod"
@@ -375,25 +400,25 @@
             </GroupBox>
         </DockPanel>
         <!--数据接收区-->
-        <Grid >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" Name="RowDefOthers"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto" Name="RowDefRecv"/>
-            </Grid.RowDefinitions>
-            <TextBox  Name="txtRecvData" Grid.Row="2"
-                      IsReadOnly="True"
-                      AcceptsReturn="True" 
-                      TextWrapping = "Wrap" 
-                      HorizontalScrollBarVisibility="Auto" 
-                      VerticalScrollBarVisibility="Auto">
-            </TextBox>
-            <GridSplitter Grid.Row="1" Grid.Column="0"
-                          Name="gridSplitter1"
-                          HorizontalAlignment="Stretch" 
-                          Height="5"/>
-            <TabControl Grid.Row="0"
+        <Grid
+            x:Name="MainArea">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TabControl Grid.Column="0"
                         Name="tabOthers">
+                <TabControl.Style>
+                    <Style TargetType="TabControl">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=mnuItmOthers,Path=IsChecked}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabControl.Style>
                 <TabItem Header="LineGraph" >
                     <oxy:PlotView   Name="oxyLineGraph" 
                                   Model="{Binding ModelLineGraph}">
@@ -406,7 +431,9 @@
                     </oxy:PlotView>
                 </TabItem>
                 <TabItem Header="ListView">
-                    <ListView Name="lstVUsr" ItemsSource="{Binding Items}">
+                    <ListView Name="lstVUsr" 
+                              ItemsSource="{Binding Items}"
+                              Grid.Column="0">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="颜色">
@@ -431,7 +458,115 @@
                             ></DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
+                <TabItem Header="SQLite">
+                    <DockPanel>
+                        <DockPanel DockPanel.Dock="Top">
+                            <Menu DockPanel.Dock="Left">
+                                <MenuItem Header="File">
+                                    <MenuItem Header="Open" Click="MnuItmOpenDatabase"></MenuItem>
+                                </MenuItem>
+                                <MenuItem Header="DB Info">
+                                    <MenuItem Header="Get TableStatus" Click="MnuItmGetTableStatus"></MenuItem>
+                                    <MenuItem Header="Get TableList" Click="MnuItmGetTableList"></MenuItem>
+                                    <MenuItem Header="Get ColumnStatus" Click="MnuItmGetColumnStatus"></MenuItem>
+                                    <MenuItem Header="Show Database" Click="MnuItmShowDatabase"></MenuItem>
+                                </MenuItem>
+                            </Menu>
+                            <TextBox DockPanel.Dock="Left"
+                                     Name="txtSQLiteExecute"
+                                     PreviewKeyDown="TxtSQLiteExecuteOnKeyDown"
+                                    controls:TextBoxHelper.ClearTextButton="True"
+                                     Text="Press [Enter] to execute.">
+                                <!--<TextBox.InputBindings>
+                                    <KeyBinding Command="{Binding KeyEventCommand}" Key="Enter"/>
+                                </TextBox.InputBindings>-->
+                            </TextBox>
+                        </DockPanel>
+                        <DataGrid 
+                                  GridLinesVisibility="All"
+                                  Name="dataGridSQLite">
+                            <DataGrid.Columns
+                                ></DataGrid.Columns>
+                        </DataGrid>
+                        
+                    </DockPanel>
+                </TabItem>
             </TabControl>
+            <GridSplitter Grid.Row="0" Grid.Column="1"
+                          HorizontalAlignment="Center" VerticalAlignment="Stretch" 
+                          Width="5">
+                <GridSplitter.Style>
+                    <Style TargetType="GridSplitter">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=mnuItmRecvArea,Path=IsChecked}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </GridSplitter.Style>
+            </GridSplitter>
+            <DockPanel Grid.Column="2">
+                <DockPanel.Style>
+                    <Style TargetType="DockPanel">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=mnuItmRecvArea,Path=IsChecked}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DockPanel.Style>
+                <Grid DockPanel.Dock="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Column="0"
+                        Name="btnDebug1"
+                        Click="BtnDebug1Click"
+                        >btn1</Button>
+                    <Button Grid.Column="1"
+                        Name="btnDebug2"
+                        Click="BtnDebug2Click"
+                        >btn2</Button>
+                    <Button Grid.Column="2"
+                        Name="btnDebug3"
+                        Click="BtnDebug3Click"
+                        >btn3</Button>
+                    <Button Grid.Column="3"
+                        Name="btnDebug4"
+                        Click="BtnDebug4Click"
+                        >btn4</Button>
+                    <Button Grid.Column="4"
+                        Name="btnDebug5"
+                        Click="BtnDebug5Click"
+                        >btn5</Button>
+                    <TextBox
+                    Name="txtDebug"
+                    Grid.Row="1" Grid.ColumnSpan="5"
+                    AcceptsReturn="True" 
+                    IsReadOnly="False"
+                      TextWrapping = "Wrap" 
+                      HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Auto" 
+                    ></TextBox>
+                </Grid>
+                <TextBox  Name="txtRecvData"
+                      IsReadOnly="True"
+                      AcceptsReturn="True" 
+                      TextWrapping = "Wrap" 
+                      HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Auto">
+                </TextBox>
+            </DockPanel>
         </Grid>
     </DockPanel>
 </controls:MetroWindow>
